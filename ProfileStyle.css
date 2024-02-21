@@ -1,23 +1,65 @@
 :root{
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Arial;
     text-align: center;
+    color: #02162c;
 }
 
 h3 {
-    color: blue;
-    font-size: 18pt;
+    color: #fdce00;
+    font-size: 20pt;
+    color: #02162c;
+    margin: 5px;
+    display: inline;
 
 }
 
 .form {
     font-size: 12pt;
-    border-style: ridge;
-    border-width: 8px;
+    border: 5px inset #fdce00;
     margin: 5px;
     padding: 5px;
-
+    color: #02162c;
+    background-color: #aaa;
 }
 
 button{
     font-size: 11pt;
+}
+
+input[type=text]:focus, input[type=number]:focus,select {
+    background-color: #fdce00;
+}
+input[type=text] {
+    box-sizing: border-box;
+    width: 200px;
+    padding: 5px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
+input[type=number] {
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
+input:invalid {
+    border: 2px solid red;
+}
+
+input[type=submit] {
+    width: 100px;
+    background-color: #aaa;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: 02162c;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #fdce00;
 }
