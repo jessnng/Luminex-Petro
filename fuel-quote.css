@@ -1,0 +1,50 @@
+body{
+    padding: 0;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.5);
+    background-image: url(https://www.usatoday.com/gcdn/presto/2020/10/30/USAT/fe8c567e-43ad-4bc4-9e22-e45a70c83342-GettyImages-157649192.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-blend-mode: lighten;
+}
+form{
+    padding: 0 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+}
+h1, p{
+    margin: 0;
+    padding: 0;
+}
+input{
+    padding-left: 0.5rem;
+    height: 2rem;
+}
+input[type=submit]{
+    margin: 0 25% 0 25%;
+}
+
+
+.form-container{
+    padding: 1rem;
+    position: relative;
+    margin: 5% 20% 0 20%;
+    background-color: white;
+}
+.header{
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.readonly-input{
+    border-radius: 1px;
+    border: 1px solid lightgrey;
+    background-color: #f8f8f8;
+    color: grey;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
