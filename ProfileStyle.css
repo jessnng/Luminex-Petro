@@ -1,25 +1,44 @@
 :root{
     font-family: Arial;
     text-align: center;
-    color: #02162c;
+    padding: 0;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.5);
+    background-image: url(https://www.usatoday.com/gcdn/presto/2020/10/30/USAT/fe8c567e-43ad-4bc4-9e22-e45a70c83342-GettyImages-157649192.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-blend-mode: lighten;
+    
+
 }
 
-h3 {
-    color: #fdce00;
-    font-size: 20pt;
-    color: #02162c;
-    margin: 5px;
-    display: inline;
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
 
 }
 
-.form {
+body {
     font-size: 12pt;
-    border: 5px inset #fdce00;
-    margin: 5px;
+    border: 5px solid #6a6868;
     padding: 5px;
-    color: #02162c;
-    background-color: #aaa;
+    color: black;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 24px;
+    padding: 1rem;
+    position: relative;
+    margin: 5% 20% 0 20%;
+
+}
+
+form {
+    padding: 0 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 button{
@@ -31,10 +50,12 @@ input[type=text]:focus, input[type=number]:focus,select {
 }
 input[type=text] {
     box-sizing: border-box;
-    width: 200px;
+    width: 300px;
     padding: 5px;
     border: 1px solid #aaa;
     border-radius: 4px;
+    padding-left: 0.5rem;
+    height: 2rem;
 }
 
 input[type=number] {
@@ -42,6 +63,8 @@ input[type=number] {
     padding: 5px;
     border: 1px solid #aaa;
     border-radius: 4px;
+    padding-left: 0.5rem;
+    height: 2rem;
 }
 
 input:invalid {
@@ -50,7 +73,6 @@ input:invalid {
 
 input[type=submit] {
     width: 100px;
-    background-color: #aaa;
     box-sizing: border-box;
     border-radius: 5px;
     color: 02162c;
@@ -58,8 +80,6 @@ input[type=submit] {
     margin: 10px 0;
     border: none;
     cursor: pointer;
-}
-
-input[type=submit]:hover {
     background-color: #fdce00;
 }
+
