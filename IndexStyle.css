@@ -1,11 +1,12 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box; /*Added Code*/
 }
 
-body{
+/*body{
     overflow-x: hidden;
-}
+}*/
 
 .header-box{
     width: 100%;
@@ -13,18 +14,20 @@ body{
     position: relative;
     background-color: #02162c;
     margin: 0 auto;
-    padding: 0px;
+    padding: 0 20px; /*Added code*/
     box-sizing: border-box;
 
 }
 
 .picture{
-    width: 100%;
-    height: 88vh;
+    max-width: auto;
+    height: 75vh;
     background-image: url(Oil.jpg);
     background-size: cover;
     background-position: top;
-    background-size: 1690px 740px;
+    /*background-size: 1690px 740px;*/
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 .navbar{
@@ -46,8 +49,10 @@ body{
 .navbar ul li{
     list-style: none;
     display: inline-block;
-    margin: 0 60px;
-    position: relative;
+    margin: 0 80px;
+    position: relative; 
+    margin-left: 80px;
+    
 }
 
 .navbar ul li a{
@@ -55,6 +60,8 @@ body{
     color: #fdce00;
     text-transform: uppercase;
     font-family: Arial;
+    font-size: 17px;
+    padding: 10px 20px;
 }
 
 .navbar ul li::after{
@@ -74,30 +81,39 @@ body{
 .loginbutton{
     background-color: #fdce00;
     color: #02162c;
-    height: 5vh;
-    width: 80px;
+    /*height: 5vh;
+    width: 5%;
     border-radius: 50px;
     top: 19%;
     transform: translateX(980%);
-    font-size: 20px;
+    font-size: 20px; */
+    height: 5vh;
+    width: auto;
+    padding: 0 20px;
+    border-radius: 50px;
+    font-size: 16px;
+    margin-right: 20px;
+    position: absolute;
+    right: 20px;
 }
 
 .content{
-    height: 1000px;
-    width: 100%;
+    /*height: 1000px;
+    width: 100%;*/
+    padding: 20px;
     background-color: #d8d8d8;
 }
 
 .slogan{
     position: absolute;
-    top: 28%; 
+    top: 25%; 
     left: 50%; 
     transform: translateX(-4%); 
     text-align: center; 
     color: #FAF9F6;
 }
 .slogan h1{
-    font-size: 70px;
+    font-size: 68px;
     margin-top: 80px
 }
 
@@ -105,11 +121,11 @@ body{
     margin: 20px auto;
     font-weight: 100;
     line-height:25px;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 /* Media queries for responsive design */
-@media screen and (max-width: 761px) {
+@media screen and (max-width: 100%) {
     .navbar ul {
         flex-direction: column;
         align-items: center;
@@ -123,20 +139,28 @@ body{
         transform: none;
         margin-top: 10px;
     }
+
 }
 
 .bottominfo{
-    width:100%;
+    /*width:100%;
     height: 400px;
     margin-top: 0px;
     display: flex;
-    justify-content: center;
+    justify-content: center; */
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .box{
-    margin: 81px;
+    /*margin: 81px;
     width: 400px;
-    height: 580px;
+    height: 580px; */
+    width: 440px;
+    height: auto;
+    margin: 20px;
+    padding: 20px;
     box-shadow: -1px 0 25px #000000;
     background-color:#02162c;
     color:#d8d8d8;
@@ -148,7 +172,10 @@ img{
     margin-bottom: 10px;
     width: 400px;
     height: 250px;
-    display: flex;
+    display: flex; 
+    /*width: 100%;
+    height: auto;*/
+    margin-bottom: 20px;
 }
 
 .box h2{
@@ -158,15 +185,18 @@ img{
 }
 
 .box p{
-    margin-bottom: 1px;
-    font-size: 18px;
+    /*margin-bottom: 1px;
+    font-size: 18px; */
+    font-size: 16px;
+    margin-bottom: 20px;
     font-family: Arial;
 }
 
 .box button{
     margin-top: 30px;
     width: 180px;
-    height: 55px;
+    /*height: 55px; */
+    height: 40px;
     border-radius: 50px;
     background-color:#fdce00;
     color:#02162c;
@@ -227,6 +257,11 @@ footer{
     padding: 20px;
     text-align: center;
 }
+
+.footerbottom p{
+    color: #d8d8d8;
+}
+
 
 .footerbottom p{
     color: #d8d8d8;
