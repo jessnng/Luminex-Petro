@@ -1,0 +1,23 @@
+:root{
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+h3 {
+    color: blue;
+    font-size: 18pt;
+
+}
+
+.form {
+    font-size: 12pt;
+    border-style: ridge;
+    border-width: 8px;
+    margin: 5px;
+    padding: 5px;
+
+}
+
+button{
+    font-size: 11pt;
+}
