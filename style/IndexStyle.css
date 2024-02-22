@@ -22,7 +22,7 @@
 .picture{
     max-width: auto;
     height: 75vh;
-    background-image: url(Oil.jpg);
+    background-image: url(../images/Oil.jpg);
     background-size: cover;
     background-position: top;
     /*background-size: 1690px 740px;*/
