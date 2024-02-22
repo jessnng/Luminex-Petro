@@ -48,3 +48,22 @@ input[type=submit]{
     cursor: not-allowed;
 }
 
+.homebutton{
+    background-color: #efefef;
+    color: #02162c;
+    height: 3vh;
+    width: 47.4%;
+    padding: 0 2px;
+    border-radius: 1px;
+    margin-right: 2px;
+    position: relative;
+    left: 26.3%;
+    top: 12%;
+    border: 1px solid #959595;
+    transition: background-color 0.3s;
+}
+
+.homebutton:hover {
+    background-color: #dcdcdc;
+}
+
