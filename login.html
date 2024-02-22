@@ -38,16 +38,19 @@
         </label>
         <p class="forgot"><a href="#">Forgot password?</a></p>
 
+        
+        <button type="submit" onclick="solve()">Login</button>
 
-        <button type="submit" onclick=""solve()>Login</button>
 
-
-        <p class="register">Don't have an account? <a href="#">Register here.</a></p>
+        <p class="register">Don't have an account? <a href="registration.html">Register here.</a></p>
+        <p class="register">Go Home? <a href="index.html">Click here.</a></p>
     </div>
   </form>
-
-
-
+  <script>
+    function solve() {
+        window.location.href = "user-profile.html"; 
+    }
+  </script>
   
 </body>
 
