@@ -95,6 +95,7 @@
     margin-right: 20px;
     position: absolute;
     right: 20px;
+    top: 25px;
 }
 
 .content{
@@ -257,11 +258,6 @@ footer{
     padding: 20px;
     text-align: center;
 }
-
-.footerbottom p{
-    color: #d8d8d8;
-}
-
 
 .footerbottom p{
     color: #d8d8d8;
