@@ -116,3 +116,27 @@ table td{
     font-size: 11pt;
 }
 
+
+.fuelquote-header{
+    padding-top: 2rem;
+}
+.quote-history-container{
+    padding: 0 1rem 0 1rem;
+}
+.quote-history-container table{
+    border-spacing: 0;
+}
+.quote-history-container th {
+    padding: 1rem;
+    background-color: aliceblue;
+    height: 2rem; 
+}
+.quote-history-container td{
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid lightgrey;
+    height: 2rem;
+}
+.quote-history-container tr:hover {
+    background-color: #fafafa;
+}
