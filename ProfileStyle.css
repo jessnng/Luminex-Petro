@@ -17,9 +17,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-
 }
+
 
 body {
     font-size: 12pt;
@@ -75,11 +74,45 @@ input[type=submit] {
     width: 100px;
     box-sizing: border-box;
     border-radius: 5px;
-    color: 02162c;
+    color: #02162c;
     padding: 10px;
     margin: 10px 0;
     border: none;
     cursor: pointer;
     background-color: #fdce00;
+    position: center; 
+    
+}
+
+table td{
+    text-align: center;
+    display: flexbox;
+    flex-flow: wrap;
+    align-items: center;
+    padding: 5pt;
+}
+
+.user-info{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.homebutton{
+    text-align: center;
+    width:97px;
+    display: flexbox;
+    border-radius: 5px;
+    flex-flow: wrap;
+    background-color: #fdce00;
+    align-items: center;
+    border: none;
+    padding: 5pt;
+    padding: 9.5px;
+    box-sizing: border-box;
+    margin: 15px 0;
+    color:#000000;
+    cursor: pointer;
+    bottom: 50%;
+    font-size: 11pt;
 }
 
