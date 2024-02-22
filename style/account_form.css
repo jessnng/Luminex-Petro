@@ -4,7 +4,7 @@
     position: relative;
     background-color: #02162c;
     margin: 0 auto;
-    padding: 0px;
+    padding: 0px 20px;
     box-sizing: border-box;
 }
 
@@ -14,6 +14,21 @@
 
 .headings {
     text-align: center;
+}
+
+.logo{
+    width: 105px;
+    height: 100px;
+    margin-left: 10px;
+}
+
+.navbar{
+    width: 100%;
+    margin: auto;
+    padding: 0px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 body {
