@@ -14,7 +14,7 @@
     </div>
 </header>
 
-  <form>
+  <form id="loginForm">
     <div class="headings">
       <h3>Sign in</h3>
     </div>
@@ -28,7 +28,7 @@
 
 
       <label for="password">Password </label>
-      <input type="text"
+      <input type="password"
         id="password"
         name="password"
         placeholder="Enter your password" required>
@@ -40,16 +40,42 @@
         <p class="forgot"><a href="#">Forgot password?</a></p>
 
         
-        <button type="submit" onclick="solve()">Login</button>
+        <button type="submit">Login</button>
 
 
         <p class="register">Don't have an account? <a href="registration.html">Register here.</a></p>
     </div>
   </form>
   <script>
-    function solve() {
-        window.location.href = "user-profile.html"; 
-    }
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      const formData = new FormData(this); // Get form data
+      const formDataObject = Object.fromEntries(formData.entries()); // Convert FormData to object
+
+      // Send an HTTP request to check if the user exists
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formDataObject)
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log('User found:', data.user.username);
+          window.location.href = 'Profile.html';
+      })
+      .catch(error => {
+          console.error('Error:', error.message);
+          alert('User not found. Please check your username and try again.');
+      });
+    });
   </script>
   
 </body>

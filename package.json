@@ -1,0 +1,17 @@
+{
+  "name": "luminex-petro",
+  "version": "1.0.0",
+  "description": "In this assignment you will build the front end for the web application that you designed in assignment 1. \r Remember, we are only building front end in this assignment.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.0",
+    "mongodb": "^6.5.0"
+  }
+}
