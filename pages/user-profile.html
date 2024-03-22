@@ -13,27 +13,29 @@
         <div>
             <table class="user-info">
                 <tr>
-                    <td> <strong>Full Name:</strong> </td>
-                    <td> <em>Nolan Smith</em> </td>
+                    <td><strong>Full Name:</strong></td>
+                    <td><em id="fullname"></em></td>
                 </tr>
                 <tr>
-                    <td> <strong>Address 1:</strong> </td>
-                    <td> <em>1234 Washington Blvd</em></td>
-                </tr>
-                <tr> 
-                    <td><strong>City: </strong></td>
-                    <td><em>Houston</em></td>
+                    <td><strong>Address 1:</strong></td>
+                    <td><em id="address1"></em></td>
                 </tr>
                 <tr>
-                    <td><strong>State: </strong></td>
-                    <td><em>TX</em></td>
+                    <td><strong>Address 2:</strong></td>
+                    <td><em id="address2"></em></td>
                 </tr>
                 <tr>
-                    <td><strong>Zipcode: </strong></td>
-                    <td><em>77041</em></td>
+                    <td><strong>City:</strong></td>
+                    <td><em id="city"></em></td>
                 </tr>
-
-
+                <tr>
+                    <td><strong>State:</strong></td>
+                    <td><em id="state"></em></td>
+                </tr>
+                <tr>
+                    <td><strong>Zipcode:</strong></td>
+                    <td><em id="zipcode"></em></td>
+                </tr>
             </table>
         </div>
 
@@ -75,6 +77,20 @@
                 </tr>
             </table>
         </div>
+      <script>
+            // Fetch user profile data from the server
+            fetch('/user-profile')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('fullname').innerText = data.fullname;
+                    document.getElementById('address1').innerText = data.address1;
+                    document.getElementById('address2').innerText = data.address2 || 'N/A';
+                    document.getElementById('city').innerText = data.city;
+                    document.getElementById('state').innerText = data.state;
+                    document.getElementById('zipcode').innerText = data.zipcode;
+                })
+                .catch(error => console.error('Error fetching user profile:', error));
+        </script>
    </body>
 
 </html>
