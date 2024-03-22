@@ -47,6 +47,7 @@
     </div>
   </form>
   <script>
+    // calls on submit by login form
     document.getElementById('loginForm').addEventListener('submit', function(event) {
       event.preventDefault(); // Prevent form submission
 
@@ -67,13 +68,13 @@
           }
           return response.json();
       })
-      .then(data => {
+      .then(data => { // if data exists then execute here
           console.log('User found:', data.user.username);
-          window.location.href = 'Profile.html';
+          window.location.href = 'Profile.html'; // redirects to profile
       })
       .catch(error => {
           console.error('Error:', error.message);
-          alert('User not found. Please check your username and try again.');
+          alert('User not found. Please try again.');
       });
     });
   </script>

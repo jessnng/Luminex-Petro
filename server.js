@@ -1,16 +1,14 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-// const bcrypt = require('bcrypt');
-const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 
+// allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
 app.use('/style', express.static(path.join(__dirname, 'style')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use(bodyParser.json());
 app.use(express.urlencoded({extended: false}));
-
 app.use(express.json());
 app.use((req, res, next) => { //CORS
   res.header('Access-Control-Allow-Origin', '*');
@@ -20,7 +18,7 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://testperso:6AVk39xBYJb1dAkS@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -40,7 +38,7 @@ async function run() {
 run().catch(console.dir);
 
 // Define routes here
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { // calls index.html separately since it's outside of page folder
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
@@ -52,14 +50,12 @@ app.post('/login', async (req, res) => {
     const database = client.db("appdb"); 
     const collection = database.collection("users"); 
 
-    const user = await collection.findOne({ username, password });
-    if (!user) {
+    const user = await collection.findOne({ username });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: 'User not found or invalid credentials' });
     }
 
-    // If username and password are correct, return a success message
-    const redirectUrl = '/Profile'; // Specify the URL you want to redirect to
-    res.json({ message: 'Login successful', user, redirectUrl });
+    res.json({ message: 'Login successful', user });
 
   } catch (error) {
     console.error("Error during login:", error);
@@ -67,18 +63,22 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// REGISTER USER ROUTE
 app.post('/register', async (req, res) => {
   try{
-    const data = {
-        username: req.body.username,
-        password: req.body.password
-    }
+    const { username, password } = req.body;
 
     const db = client.db("appdb");
     const collection = db.collection("users");
 
-    const userdata = await collection.insertOne(data);
-    console.log(userdata);
+    const existingUser = await collection.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ message: "Username already exists" });
+    }
+
+    // Encrypt password
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the saltRounds
+    await collection.insertOne({ username, password: hashedPassword });
     
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
@@ -87,6 +87,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
+// PORT for dev
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

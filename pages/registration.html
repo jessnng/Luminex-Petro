@@ -14,7 +14,7 @@
     </div>
 </header>
 
-  <form>
+  <form id="registrationForm">
     <div class="headings">
       <h3>Registration</h3>
     </div>
@@ -35,13 +35,12 @@
         
         <label for="password">Confirm Password </label>
         <input type="text"
-          id="password"
-          name="password"
+
           placeholder="Confirm your password" required>
 
           <br>
 
-        <button type="submit" onclick="solve()">Register now</button>
+        <button type="submit">Register now</button>
 
 
         <p class="register">Have an account? <a href="login.html">Return to login page</a></p>
@@ -49,10 +48,38 @@
   </form>
 
   <script>
-    function solve() {
-        
-        window.location.href = "Profile.html"; 
-    }
+    document.getElementById("registrationForm").addEventListener("submit", async function(event) {
+      event.preventDefault(); // Prevent default form submission
+      
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      try {
+          const response = await fetch('/register', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ username, password })
+          });
+          console.log(response);
+          
+          if (response.ok) {
+              alert('Registration successful!');
+              window.location.href = 'login.html';
+          } else {
+            const responseData = await response.json();
+            if (response.status === 400 && responseData.message === "Username already exists") {
+                alert('Username already exists. Please choose a different username.');
+            } else {
+                alert('Registration failed. Please try again.');
+            }
+        }
+      } catch (error) {
+          console.error('Error during registration:', error);
+          alert('Registration failed. Please try again later.');
+      }
+    });
   </script>
 
   
