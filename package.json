@@ -4,7 +4,8 @@
   "description": "In this assignment you will build the front end for the web application that you designed in assignment 1. \r Remember, we are only building front end in this assignment.",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +13,7 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "express": "^4.19.0",
+    "jest": "^29.7.0",
     "mongodb": "^6.5.0"
   }
 }
