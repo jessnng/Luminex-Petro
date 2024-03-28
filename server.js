@@ -122,6 +122,42 @@ app.get('/user-profile', async (req, res) => {
   }
 });
 
+// create quote form route
+app.post('/quote-form', async (req, res) => {
+
+  try {
+    const { gallonsRequest } = req.body;
+    if (!gallonsRequest)
+    {
+      return res.status(400).json({ error: "A value is needed for gallons requested."})
+    }
+
+    var deliveryAddress = localStorage.getItem("userAddress");
+    var suggestedPrice = localStorage.getItem("suggestedPrice");
+    var amountDue = localStorage.getItem("amountDue");
+
+    const data = {
+      gallonsRequest,
+      deliveryAddress,
+      deliveryDate,
+      suggestedPrice,
+      amountDue
+    };
+
+    const db = client.db("appdb");
+    const collection = db.collection("quote-history");
+
+    // add to quote history collection
+    await collection.insertOne({data});
+
+    res.status(200).json({ message: 'Quote form successfully submitted.'})
+
+  } catch (error) {
+    console.error("Error submitting quote form: ", error);
+    res.status(500).send("Internal server error.")
+  }
+})
+
 // PORT for dev
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
