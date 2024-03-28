@@ -1,9 +1,10 @@
 //const { authRegisterController } = require('../controllers/server.js');
 
+const bcrypt = require('bcrypt');
+
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-// const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
-const uri = "mongodb+srv://Nicole:J4cpg2LbVGb9Mp6z@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
