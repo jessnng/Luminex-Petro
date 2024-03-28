@@ -2,7 +2,8 @@
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+// const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+const uri = "mongodb+srv://Nicole:J4cpg2LbVGb9Mp6z@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -25,6 +26,11 @@ run().catch(console.dir);
 const authRegisterController = async(req, res) => {
   try{
     const { username, password } = req.body;
+
+    if( !username || !password){
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
 
     const db = client.db("appdb");
     const collection = db.collection("users");

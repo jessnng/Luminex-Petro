@@ -10,7 +10,7 @@
 <body>
   <header class="header-box">
     <div class="navbar">
-      <a href="../Index.html"><img src="../images/logo.jpg" class="logo"></a>
+      <a href="/"><img src="../images/logo.jpg" class="logo"></a>
     </div>
 </header>
 
@@ -69,8 +69,16 @@
           return response.json();
       })
       .then(data => { // if data exists then execute here
-          console.log('User found:', data.user.username);
-          window.location.href = 'Profile.html'; // redirects to profile
+        console.log(data);
+        console.log('User ', data.username, ' found');
+        if (data && data.redirectTo === '/Profile.html') {
+          window.location.href = 'Profile.html';
+        } 
+        else if(data && data.redirectTo === '/user-profile.html') {
+          localStorage.setItem('loggedInUser', data.username);
+          window.location.href = 'user-profile.html';
+        }
+
       })
       .catch(error => {
           console.error('Error:', error.message);

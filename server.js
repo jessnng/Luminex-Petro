@@ -19,7 +19,8 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+// const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+const uri = "mongodb+srv://Nicole:J4cpg2LbVGb9Mp6z@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -47,6 +48,11 @@ app.get('/', (req, res) => { // calls index.html separately since it's outside o
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
+  if( !username || !password){
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+
   try{
     const database = client.db("appdb"); 
     const collection = database.collection("users"); 
@@ -56,7 +62,14 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'User not found or invalid credentials' });
     }
 
-    res.json({ message: 'Login successful', user });
+    const userProfile = await client.db("appdb").collection("profile").findOne({ username });
+    if (userProfile && userProfile.address1 && userProfile.fullName && userProfile.city && userProfile.state && userProfile.zipcode) {
+      // If profile information exists, redirect to user-profile
+      return res.json({ message: 'Login successful', username : username, redirectTo: '/user-profile' });
+    } else {
+      // If profile information doesn't exist, redirect to Profile.html
+      return res.json({ message: 'Login successful', username: username, redirectTo: '/Profile.html' });
+    }
 
   } catch (error) {
     console.error("Error during login:", error);
