@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path');
 const bcrypt = require('bcrypt');
-const { authRegisterController } = require('../controllers/server.js');
+const { authRegisterController } = require('../Luminex-Petro/controllers/registerUser');
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
@@ -65,7 +65,9 @@ app.post('/login', async (req, res) => {
 });
 
 // REGISTER USER ROUTE
-app.post('/register', authRegisterController);
+app.post('/register', function(req, res) {
+  authRegisterController
+});
 
 // Create user profile route
 app.post('/profile/:username/update', async (req, res) => {
