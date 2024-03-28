@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path');
 const bcrypt = require('bcrypt');
-//const { authRegisterController } = require('/controllers/server');
+const { authRegisterController } = require('../controllers/server.js');
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
@@ -65,28 +65,7 @@ app.post('/login', async (req, res) => {
 });
 
 // REGISTER USER ROUTE
-app.post('/register', async (req, res) => {
-  try{
-    const { username, password } = req.body;
-
-    const db = client.db("appdb");
-    const collection = db.collection("users");
-
-    const existingUser = await collection.findOne({ username });
-    if (existingUser) {
-      res.status(400).json({ message: "Username already exists" });
-    }
-
-    // Encrypt password
-    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the saltRounds
-    await collection.insertOne({ username, password: hashedPassword });
-    
-    res.status(201).json({ message: "User registered successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to register user" });
-  }
-});
+app.post('/register', authRegisterController);
 
 // Create user profile route
 app.post('/profile/:username/update', async (req, res) => {
