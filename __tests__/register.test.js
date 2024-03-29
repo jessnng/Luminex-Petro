@@ -1,4 +1,4 @@
-
+const { authRegisterController } = require('../controllers/registerUser.js');
 
 const mockData = {
     body: {
