@@ -20,7 +20,7 @@ describe('Login Controller', () => {
   });
 
   test('should return 400 if required fields are missing', async () => {
-    await loginController(req, res);
+    await loginController(client, req, res);
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ error: 'Missing required fields' });
   });
@@ -38,7 +38,7 @@ describe('Login Controller', () => {
     };
     global.client = mockClient;
 
-    await loginController(req, res);
+    await loginController(client, req, res);
     expect(res.status).toHaveBeenCalledWith(401);
     expect(res.json).toHaveBeenCalledWith({ error: 'User not found or invalid credentials' });
   });
@@ -62,7 +62,7 @@ describe('Login Controller', () => {
     };
     global.client = mockClient;
 
-    await loginController(req, res);
+    await loginController(client, req, res);
     expect(res.json).toHaveBeenCalledWith({ message: 'Login successful', username: 'existinguser', redirectTo: '/user-profile' });
   });
 
@@ -85,7 +85,7 @@ describe('Login Controller', () => {
     };
     global.client = mockClient;
 
-    await loginController(req, res);
+    await loginController(client, req, res);
     expect(res.json).toHaveBeenCalledWith({ message: 'Login successful', username: 'existinguser', redirectTo: '/Profile.html' });
   });
 
@@ -102,7 +102,7 @@ describe('Login Controller', () => {
     };
     global.client = mockClient;
 
-    await loginController(req, res);
+    await loginController(client, req, res);
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({ error: 'Internal server error' });
   });
