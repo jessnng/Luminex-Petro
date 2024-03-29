@@ -46,8 +46,8 @@
 
         
       <script>
-            // Fetch user profile data from the server
-            fetch('/user-profile')
+             // Fetch user profile data from the server
+            fetch('/user-profile/username = {username}')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('fullname').innerText = data.fullname;
@@ -58,6 +58,17 @@
                     document.getElementById('zipcode').innerText = data.zipcode;
                 })
                 .catch(error => console.error('Error fetching user profile:', error));
+
+                // Check if the user is logged in
+                const loggedInUser = localStorage.getItem('loggedInUser');
+                
+                // If user is not logged in, redirect to the login page
+                if (!loggedInUser) {
+                    window.location.href = 'login.html';
+                } else {
+                     // Populate the hidden username field with the logged-in user's username
+                    document.getElementById('username').value = loggedInUser;
+                 }
         </script>
    </body>
 
