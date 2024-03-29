@@ -87,38 +87,7 @@ app.post('/register', function(req, res) {
 
 // Create user profile route
 app.post('/profile/:username/update', async (req, res) => {
-  try {
-    const username = req.params.username;
-    const { fullname, address1, city, state, zipcode } = req.body;
-
-    // Check if required fields are missing or empty
-    if (!fullname || !address1 || !city || !state || !zipcode) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
-
-    const newData = {
-      fullname,
-      address1,
-      address2: req.body.address2 || "", // Optional field
-      city,
-      state,
-      zipcode
-    };
-
-    const database = client.db("appdb"); 
-    const collection = database.collection("profile"); 
-
-    const result = await collection.updateOne({ username }, { $set: newData });
-
-    if (result.modifiedCount === 0) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    res.status(200).json({ message: 'Profile updated successfully' });
-  } catch (error) {
-    console.error("Error while updating user profile:", error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+  authProfileController
 });
 
 // Route to render the user profile page
