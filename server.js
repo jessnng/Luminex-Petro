@@ -48,8 +48,8 @@ app.get('/', (req, res) => { // calls index.html separately since it's outside o
 });
 
 // LOGIN ROUTE
-app.post('/login', function (req, res) {
-  loginController
+app.post('/login', function (client, req, res) {
+  loginController(client, req, res)
 });
 
 // REGISTER USER ROUTE

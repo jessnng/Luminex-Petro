@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const loginController = async (req, res) => {
+const loginController = async (client, req, res) => {
     const { username, password } = req.body;
   
     if( !username || !password){
