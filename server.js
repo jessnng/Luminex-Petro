@@ -64,21 +64,7 @@ app.post('/profile/:username/update', function(req, res) {
 
 // Route to render the user profile page
 app.get('/user-profile', async (req, res) => {
-  try {
-      // Connect to MongoDB
-      await client.connect();
-      const database = client.db("appdb");
-      const collection = database.collection("user-profile"); 
-
-      // Fetch user profile data from the database
-      const userProfile = await collection.findOne({ username: req.query.username }); // Assuming you pass the username as a query parameter
-
-      // Render the user profile page with dynamic data
-      res.render('user-profile', { userProfile });
-  } catch (error) {
-      console.error("Error retrieving user profile:", error);
-      res.status(500).send("Internal Server Error");
-  }
+  userProfileController
 });
 
 // create quote form route
