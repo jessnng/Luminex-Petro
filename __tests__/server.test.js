@@ -1,10 +1,12 @@
 const { authRegisterController } = require('../controllers/registerUser.js');
-const collection = require('../controllers/registerUser.js');
+//const collection = require('../controllers/registerUser.js');
+const request = require('supertest');
+const client = require('../controllers/registerUser.js')
 
-const mockRequest = {
+const mockData = {
     body: {
         username: 'username1',
-        password: 'password1',
+        password: 'password1'
     },
 };
 
@@ -13,7 +15,33 @@ const mockRespond = {
     json: jest.fn((x) => x),
 };
 
-it ('should send a status 400 when user exits', async () => {
-    await authRegisterController(mockRequest, mockRespond);
-    
+// Register User - POST request
+describe('POST, /register - create new user', () => {
+
+    it ('should send a status 400 when user exits', async () => {
+
+        await authRegisterController(mockData, mockRespond);
+        if (mockData)
+            expect(mockRespond.status).toHaveBeenCalledWith(400);
+    });
+
+    it ('should send status 201 when succesfully register user', async () => {
+        await authRegisterController(mockData, mockRespond);
+        expect(mockData).toEqual({
+            body: {
+                username: 'username1',
+                password: expect.anything()
+            }
+        });
+        expect(mockRespond.status).toHaveBeenCalledWith(201);
+
+    });
+
+    it ('should send status 500 when failed to register user and when missing username and/or password', async () => {
+        await authRegisterController({}, mockRespond);
+        expect(mockRespond.status).toHaveBeenCalledWith(500);
+
+    })
+
 });
+

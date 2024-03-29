@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.08% </span>
+                <span class="strong">93.1% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>37/48</span>
+                <span class='fraction'>54/58</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>5/7</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.08% </span>
+                <span class="strong">93.1% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>37/48</span>
+                <span class='fraction'>54/58</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -110,7 +110,20 @@
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -135,33 +148,43 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">//const { authRegisterController } = require('../controllers/server.js');
 &nbsp;
+const bcrypt = require('bcrypt');
+&nbsp;
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://&lt;username&gt;:&lt;password&gt;@test.4hg8rme.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=test";
+const uri = "mongodb+srv://jessica:Elflove13%21@test.4hg8rme.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=test";
+//const uri = "mongodb+srv://&lt;username&gt;:&lt;password&gt;@test.4hg8rme.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=test";
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -173,7 +196,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    //console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } <span class="branch-0 cbranch-no" title="branch not covered" >catch(err) {</span>
 <span class="cstat-no" title="statement not covered" >    console.error(err);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
@@ -185,22 +208,29 @@ const authRegisterController = async(req, res) =&gt; {
   try{
     const { username, password } = req.body;
 &nbsp;
+    if( !username || !password)<span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'Missing required fields' });</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+&nbsp;
     const db = client.db("appdb");
     const collection = db.collection("users");
 &nbsp;
-    const existingUser = await collection.findOne({ username })<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
-<span class="cstat-no" title="statement not covered" >    if (existingUser) {</span>
-<span class="cstat-no" title="statement not covered" >      res.status(400).json({ message: "Username already exists" });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    // Encrypt password</span>
-<span class="cstat-no" title="statement not covered" >    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the saltRounds</span>
-<span class="cstat-no" title="statement not covered" >    await collection.insertOne({ username, password: hashedPassword });</span>
-<span class="cstat-no" title="statement not covered" >    </span>
-<span class="cstat-no" title="statement not covered" >    res.status(201).json({ message: "User registered successfully" });</span>
+    const existingUser = await collection.findOne({ username });
+    if (existingUser) {
+      res.status(400);
+      res.json({ message: "Username already exists" });
+    }
+&nbsp;
+    // Encrypt password
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the saltRounds
+    await collection.insertOne({ username, password: hashedPassword });
+    
+    res.status(201);
+    res.json({ message: "User registered successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Failed to register user" });
+    res.status(500);
+    res.json({ message: "Failed to register user" });
   }
 };
 &nbsp;
@@ -211,7 +241,7 @@ module.exports = { authRegisterController };</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-28T20:57:29.149Z
+                at 2024-03-29T03:13:50.910Z
             </div>
         <script src="prettify.js"></script>
         <script>
