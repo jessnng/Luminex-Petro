@@ -86,7 +86,7 @@ app.post('/register', function(req, res) {
 });
 
 // Create user profile route
-app.post('/profile/:username/update', async (req, res) => {
+app.post('/profile/:username/update', function(req, res) {
   authProfileController
 });
 

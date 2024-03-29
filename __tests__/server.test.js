@@ -21,6 +21,8 @@ describe('POST, /register - create new user', () => {
         await authRegisterController(mockData, mockRespond);
         if (mockData)
             expect(mockRespond.status).toHaveBeenCalledWith(400);
+            expect(mockRespond.json).toHaveReturnedWith('Username already exists');
+            expect(mockRespond.json).toHaveReturnedWith('User registered successfully')
     });
 
     it ('should send status 201 when succesfully register user', async () => {
@@ -32,20 +34,19 @@ describe('POST, /register - create new user', () => {
             }
         });
         expect(mockRespond.status).toHaveBeenCalledWith(201);
+        expect(mockRespond.json).toHaveReturnedWith('Username already exists');
+        expect(mockRespond.json).toHaveReturnedWith('User registered successfully');
 
     });
 
     it ('should send status 500 when failed to register user and when missing username and/or password', async () => {
         await authRegisterController({}, mockRespond);
         expect(mockRespond.status).toHaveBeenCalledWith(500);
+        expect(mockRespond.json).toHaveReturnedWith('Failed to register user');
 
     })
 });
 
-// User Login - POST Request
-describe('POST, /login - customer login', () => {
-
-});
 
 const mockUserData = {
     body: {
@@ -55,7 +56,6 @@ const mockUserData = {
         state: 'TX',
         zipcode: '12345'
     }
-
 };
 
 const quoteMockData = {
@@ -73,15 +73,17 @@ describe('POST, /quote-form - send quote form to server', () => {
 
     it('should send status 400 when missing gallons request', async () => {
         await quoteFormController(quoteMockData.body.gallonsRequest, mockRespond);
-        if (!quoteMockData.body.gallonsRequest)
-            expect(mockRespond.status).toHaveBeenCalledWith(400);    
+        if (!quoteMockData.body.gallonsRequest){
+            expect(mockRespond.status).toHaveBeenCalledWith(400);
+            expect(mockRespond.json).toHaveReturnedWith('A value is needed for gallons requested.')
+        }
+                
     })
 
     it('should send status 200 when succesfully send form', async () => {
         await quoteFormController(quoteMockData.body, mockRespond);
         if(quoteMockData.body.gallonsRequest) {
             expect(quoteMockData.body).toHaveProperty('gallonsRequest', 16);
-            //expect(mockRespond.status).toHaveBeenCalledWith(200);
         }
         
     });
@@ -91,15 +93,5 @@ describe('POST, /quote-form - send quote form to server', () => {
         expect(mockRespond.status).toHaveBeenCalledWith(500);
         expect(mockRespond.json).toHaveReturnedWith('Internal server error.');
     })
-
-});
-
-
-// User-Profile - POST/GET Request
-describe('POST, /user-profile - create user profile', () => {
-
-});
-
-describe('GET, /user-profile - render user profile', () => {
 
 });
