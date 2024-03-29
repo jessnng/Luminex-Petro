@@ -2,7 +2,6 @@ const express = require('express')
 
 const data = [
     {
-        "clientName": 'John Doe',
         "gallonsRequested": 20,
         "deliveryAddress": '1234 Washington Blvd, Houston, TX',
         "deliveryDate": '2023-12-01',
@@ -11,7 +10,6 @@ const data = [
     },
 
     {
-        "clientName": 'Jane Doe',
         "gallonsRequested": 20,
         "deliveryAddress": '1234 Washington Blvd, Houston, TX',
         "deliveryDate": '2024-12-27',
@@ -20,7 +18,6 @@ const data = [
     },
 
     {
-        "clientName": 'Joe Smith',
         "gallonsRequested": 15,
         "deliveryAddress": '12345 Hazel Rd, Houston, TX',
         "deliveryDate": '2024-01-15',
@@ -28,3 +25,19 @@ const data = [
         "amountDue": 47.25
     }
 ]
+
+function populateTable(data) {
+    const table = document.querySelector("#quoteHistoryTable tbody");
+
+    data.forEach( data => {
+        let row = document.createElement('tr');
+        row.innerHTML = `
+        <td>${data.gallonsRequested}</td>
+        <td>${data.deliveryAddress}</td>
+        <td>${data.deliveryDate}</td>
+        <td>${data.suggestedPrice}</td>
+        <td>${data.amountDue}</td>
+        `;
+        table.append(row);
+    });
+}

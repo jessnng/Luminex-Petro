@@ -147,9 +147,9 @@ app.post('/quote-form', async (req, res) => {
       return res.status(400).json({ error: "A value is needed for gallons requested."})
     }
 
-    var deliveryAddress = localStorage.getItem("userAddress");
-    var suggestedPrice = localStorage.getItem("suggestedPrice");
-    var amountDue = localStorage.getItem("amountDue");
+    var deliveryAddress = sessionStorage.getItem("userAddress");
+    var suggestedPrice = sessionStorage.getItem("suggestedPrice");
+    var amountDue = sessionStorage.getItem("amountDue");
 
     const data = {
       gallonsRequest,
