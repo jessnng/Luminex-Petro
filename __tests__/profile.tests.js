@@ -1,28 +1,41 @@
-const { authProfileController } = require('../controllers/profile.js');
+const { updateProfileController } = require('../controllers/profile.js');
 const request = require('supertest');
 const client = require('../controllers/profile.js')
 
 // Mock data for testing profile update
-const profileMockData = {
-    body: {
-        fullname: 'John Doe',
-        address1: '123 Main St',
-        address2: 'Apt 101', // Optional field
-        city: 'Anytown',
-        state: 'NY',
-        zipcode: '12345'
-    }
-};
+beforeEach(() => {
+    let next;
+    const profileMockData = {
+        body: {
+            fullname: 'John Doe',
+            address1: '123 Main St',
+            address2: 'Apt 101', // Optional field
+            city: 'Anytown',
+            state: 'NY',
+            zipcode: '12345'
+        }
+    };
+    
+    const mockResponse = {
+        status: jest.fn().mockReturnThis(),
+          json: jest.fn()
+    };
+    next = jest.fn();
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
+})
+
 
 // Test suite for profile update route
 describe('Profile Update Route', () => {
     // Test case: Valid profile update
-    it('should update profile successfully for existing user with valid data', async () => {
-        const response = await request(client) // Assuming client is your Express app
-            .post('/profile/username/update') // Replace 'username' with an existing username
-            .send(profileMockData.body);
-        expect(response.status).toBe(200);
-        expect(response.body).toHaveProperty('message', 'Profile updated successfully');
+    test('should update profile successfully for existing user with valid data', async () => {
+        
+        await updateProfileController(profileMockData,mockResponse);
+        expect(mockResponse.status).toHaveBeenCalledWith(200);
+        expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Profile updated successfully' });
     });
 
     // Test case: Missing required fields

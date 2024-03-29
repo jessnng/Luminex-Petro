@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const { authRegisterController } = require('../Luminex-Petro/controllers/registerUser');
 const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm');
 const { loginController } = require('../Luminex-Petro/controllers/loginUser');
+const { updateProfileController } = require('../Luminex-Petro/controllers/profile');
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
@@ -21,9 +22,7 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://jessica:Elflove13%21@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
-//const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
-
+const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -60,7 +59,7 @@ app.post('/register', function(req, res) {
 
 // Create user profile route
 app.post('/profile/:username/update', function(req, res) {
-  authProfileController
+  updateProfileController
 });
 
 // Route to render the user profile page
