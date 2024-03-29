@@ -3,6 +3,7 @@ const app = express()
 const path = require('path');
 const bcrypt = require('bcrypt');
 const { authRegisterController } = require('../Luminex-Petro/controllers/registerUser');
+const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm');
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
@@ -19,7 +20,9 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+const uri = "mongodb+srv://jessica:Elflove13%21@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+//const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -138,39 +141,8 @@ app.get('/user-profile', async (req, res) => {
 });
 
 // create quote form route
-app.post('/quote-form', async (req, res) => {
-
-  try {
-    const { gallonsRequest } = req.body;
-    if (!gallonsRequest)
-    {
-      return res.status(400).json({ error: "A value is needed for gallons requested."})
-    }
-
-    var deliveryAddress = sessionStorage.getItem("userAddress");
-    var suggestedPrice = sessionStorage.getItem("suggestedPrice");
-    var amountDue = sessionStorage.getItem("amountDue");
-
-    const data = {
-      gallonsRequest,
-      deliveryAddress,
-      deliveryDate,
-      suggestedPrice,
-      amountDue
-    };
-
-    const db = client.db("appdb");
-    const collection = db.collection("quote-history");
-
-    // add to quote history collection
-    await collection.insertOne({data});
-
-    res.status(200).json({ message: 'Quote form successfully submitted.'})
-
-  } catch (error) {
-    console.error("Error submitting quote form: ", error);
-    res.status(500).send("Internal server error.")
-  }
+app.post('/quote-form', function (req, res) {
+  quoteFormController
 })
 
 // PORT for dev
