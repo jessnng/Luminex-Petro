@@ -1,25 +1,25 @@
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
-// CONNECT TO MONGODB ATLAS
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+// // CONNECT TO MONGODB ATLAS
+// const { MongoClient, ServerApiVersion } = require('mongodb');
+// const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-async function run() {
-  try {
-    await client.connect();
-  } catch(err) {
-    console.error(err);
-  }
-}
-run().catch(console.dir);
+// // Create a MongoClient with a MongoClientOptions object to set the Stable API version
+// const client = new MongoClient(uri, {
+//   serverApi: {
+//     version: ServerApiVersion.v1,
+//     strict: true,
+//     deprecationErrors: true,
+//   }
+// });
+// async function run() {
+//   try {
+//     await client.connect();
+//   } catch(err) {
+//     console.error(err);
+//   }
+// }
+// run().catch(console.dir);
 
 
 const updateProfileController = async (req, res) => {
@@ -57,12 +57,10 @@ const updateProfileController = async (req, res) => {
         return res.status(500).json({ error: 'Failed to update profile' });
       }
   
-      res.status(200);
-      res.json({ message: 'Profile updated successfully' });
+      res.status(200).json({ message: 'Profile updated successfully' });
     } catch (error) {
       console.error("Error while updating user profile:", error);
-      res.status(500);
-      res.json({ error: 'Internal server error' });
+      res.status(500).json({ error: 'Internal server error' });
     }
   };
   

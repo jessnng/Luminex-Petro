@@ -1,57 +1,99 @@
 const { updateProfileController } = require('../controllers/profile.js');
-const request = require('supertest');
-const client = require('../controllers/profile.js')
+const { MongoClient } = require('mongodb');
 
-// Mock data for testing profile update
-const profileMockData = {
-    params: {
-        username: 'testuser' // Replace with an existing username
-    },
-    body: {
-        fullname: 'John Doe',
-        address1: '123 Main St',
-        address2: 'Apt 101', // Optional field
-        city: 'Anytown',
-        state: 'NY',
-        zipcode: '12345'
-    }
-};
 
-const mockResponse = {
-    status: jest.fn().mockReturnThis(),
-      json: jest.fn()
-};
+jest.mock('mongodb');
 
-// Test suite for profile update route
-describe('Profile Update Route', () => {
-    // Test case: Valid profile update
-    test('should update profile successfully for existing user with valid data', async () => {
-        
-        await updateProfileController(profileMockData,mockResponse);
-        expect(profileMockData.status).toHaveBeenCalledWith(200);
-        expect(profileMockData.json).toHaveBeenCalledWith({ message: 'Profile updated successfully' });
+describe('updateProfileController', () => {
+    let req, res;
+
+    beforeEach(() => {
+        // Mock request and response objects
+        req = {
+            params: { username: 'testuser' },
+            body: {
+                fullname: 'John Doe',
+                address1: '123 Main St',
+                city: 'Anytown',
+                state: 'CA',
+                zipcode: '12345'
+            },
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
     });
 
-    // Test case: Missing required fields
-    it('should return 400 error if required fields are missing', async () => {
-        // const response = await request(client) // Assuming client is your Express app
-        //     .post('/profile/username/update') // Replace 'username' with an existing username
-        //     .send({}); // Send empty object to simulate missing fields
-        const invalidRequest = { ...profileMockData, body: {} }; // Simulate missing fields
-        await updateProfileController(invalidRequest, mockResponse);
-        expect(response.status).toHaveBeenCalledWith(400);
-        expect(response.body).toHaveBeenCalledWith({ error: 'Missing required fields' });
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
-    // Test case: User not found
-    it('should return 404 error if user does not exist', async () => {
-        // const response = await request(client) // Assuming client is your Express app
-        //     .post('/profile/nonexistentuser/update') // Replace 'nonexistentuser' with a non-existing username
-        //     .send(profileMockData.body);
-        const nonExistingUserRequest = { ...profileMockData, params: { username: 'nonexistentuser' } }; // Simulate non-existing user
-        await updateProfileController(nonExistingUserRequest, mockResponse);
-        expect(response.status).toHaveBeenCalledWith(404);
-        expect(response.body).toHaveBeenCalledWith({ error: 'User not found' });
+    it('should return 400 if required fields are missing', async () => {
+        // Modify request to have missing required fields
+        delete req.body.fullname;
+
+        await updateProfileController(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ error: 'Missing required fields' });
     });
 
+    it('should return 404 if user does not exist', async () => {
+        // Mock findOne to return null (user does not exist)
+        const findOneMock = jest.fn().mockResolvedValueOnce(null);
+        const collectionMock = { findOne: findOneMock };
+        const dbMock = { collection: jest.fn().mockReturnValueOnce(collectionMock) };
+        const clientMock = { db: jest.fn().mockReturnValueOnce(dbMock) };
+
+        // Mock MongoClient.connect method to return clientMock
+        MongoClient.connect.mockResolvedValueOnce(clientMock);
+
+        await updateProfileController(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({ error: 'User not found' });
+    });
+
+    it('should update user profile successfully', async () => {
+        // Mock updateOne to return modifiedCount = 1
+        const updateOneMock = jest.fn().mockResolvedValueOnce({ modifiedCount: 1 });
+        const collectionMock = { findOne: jest.fn().mockResolvedValueOnce({}), updateOne: updateOneMock };
+        const dbMock = { collection: jest.fn().mockReturnValueOnce(collectionMock) };
+        const clientMock = { db: jest.fn().mockReturnValueOnce(dbMock) };
+
+        // Mock MongoClient.connect method to return clientMock
+        MongoClient.connect.mockResolvedValueOnce(clientMock);
+
+        await updateProfileController(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ message: 'Profile updated successfully' });
+    });
+
+    it('should return 500 if failed to update profile', async () => {
+        // Mock updateOne to return modifiedCount = 0
+        const updateOneMock = jest.fn().mockResolvedValueOnce({ modifiedCount: 0 });
+        const collectionMock = { findOne: jest.fn().mockResolvedValueOnce({}), updateOne: updateOneMock };
+        const dbMock = { collection: jest.fn().mockReturnValueOnce(collectionMock) };
+        const clientMock = { db: jest.fn().mockReturnValueOnce(dbMock) };
+
+        // Mock MongoClient.connect method to return clientMock
+        MongoClient.connect.mockResolvedValueOnce(clientMock);
+
+        await updateProfileController(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ error: 'Failed to update profile' });
+    });
+
+    it('should handle internal server error', async () => {
+        // Mock MongoClient.connect to throw an error
+        MongoClient.connect.mockRejectedValueOnce(new Error('Connection error'));
+
+        await updateProfileController(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ error: 'Internal server error' });
+    });
 });
