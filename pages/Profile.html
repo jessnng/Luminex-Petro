@@ -13,7 +13,7 @@
         </div>
         
         <div class="form">
-            <form method="post" >
+            <form id="profileForm" method="post" action="/profile/update">
                 <p>
                     <label for="fullname">Full Name: </label>
                     <input type="text" id="fullname" name="fullname" placeholder="First & Last Name" maxlength="50" required>
@@ -97,10 +97,26 @@
         <input type="submit" value="Save">
         </a>
 
-        <a href="../index.html">
+        <a href="/">
             <button class="homebutton">Home</button>
                 </a>
+      <script>
+        // Check if the user is logged in
+        const loggedInUser = localStorage.getItem('loggedInUser');
+                
+        // If user is not logged in, redirect to the login page
+        if (!loggedInUser) {
+            window.location.href = 'login.html';
+        } else {
+             // Populate the hidden username field with the logged-in user's username
+            document.getElementById('username').value = loggedInUser;
+         }
+
+    // Function to save the profile
+    function saveProfile() {
+    document.getElementById('profileForm').submit();
+    }
+    </script>
    </body>
 
 </html>
-
