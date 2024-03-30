@@ -18,10 +18,12 @@ const userProfileController = async (client, req, res) => {
       return res.status(404).json({ error: 'User profile not found' });
     }
 
-    res.status(200).json({ message: 'User profile retrieved successfully', userProfile });
+    res.status(200);
+    res.json({ message: 'User profile retrieved successfully', userProfile });
   } catch (error) {
     console.error("Error retrieving user profile:", error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500);
+    res.json({ error: 'Internal server error' });
   }
 };
 

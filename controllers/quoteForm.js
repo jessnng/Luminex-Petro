@@ -22,7 +22,7 @@ async function run() {
 }
 run().catch(console.dir);
 
-const quoteFormController = async (req, res) => {
+const quoteFormController = async (req, res, userData) => {
 
     try {
       const { gallonsRequest } = req.body;
@@ -30,10 +30,12 @@ const quoteFormController = async (req, res) => {
       {
         return res.status(400).json({ error: "A value is needed for gallons requested."})
       }
+
+      const { deliveryAddress, suggestedPrice, amountDue } = userData;
   
-      var deliveryAddress = sessionStorage.getItem("userAddress");
-      var suggestedPrice = sessionStorage.getItem("suggestedPrice");
-      var amountDue = sessionStorage.getItem("amountDue");
+      // var deliveryAddress = sessionStorage.getItem("userAddress");
+      // var suggestedPrice = sessionStorage.getItem("suggestedPrice");
+      // var amountDue = sessionStorage.getItem("amountDue");
   
       const data = {
         gallonsRequest,

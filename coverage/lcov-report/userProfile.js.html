@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for loginUser.js</title>
+    <title>Code coverage report for userProfile.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> loginUser.js</h1>
+        <h1><a href="index.html">All files</a> userProfile.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.44% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>34/36</span>
+                <span class='fraction'>30/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.3% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/13</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.44% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>34/36</span>
+                <span class='fraction'>30/30</span>
             </div>
         
             
@@ -93,30 +93,21 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -125,50 +116,44 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const bcrypt = require('bcrypt');
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const bcrypt = require('bcrypt');
 &nbsp;
-const loginController = async (client, req, res) =&gt; {
-    const { username, password } = req.body;
-  
-    if( !username || !password)<span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'Missing required fields' });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-  
-  
-    try{
-      const database = client.db("appdb"); 
-      const collection = database.collection("users"); 
-  
-      const user = await collection.findOne({ username });
-      if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json({ error: 'User not found or invalid credentials' });
-      }
-  
-      const userProfile = await client.db("appdb").collection("profile").findOne({ username });
-      if (userProfile &amp;&amp; userProfile.address1 &amp;&amp; userProfile.fullName &amp;&amp; userProfile.city &amp;&amp; userProfile.state &amp;&amp; userProfile.zipcode) {
-        // If profile information exists, redirect to user-profile
-        return res.json({ message: 'Login successful', username : username, redirectTo: '/user-profile' });
-      } else {
-        // If profile information doesn't exist, redirect to Profile.html
-        return res.json({ message: 'Login successful', username: username, redirectTo: '/Profile.html' });
-      }
-  
-    } catch (error) {
-      console.error("Error during login:", error);
-      res.status(500);
-      res.json({ error: 'Internal server error' });
+const userProfileController = async (client, req, res) =&gt; {
+  try {
+    const { username } = req.query; // Assuming username is passed as a query parameter
+&nbsp;
+    if (!username) {
+      return res.status(400).json({ error: 'Missing username parameter' });
     }
-  };
 &nbsp;
-  module.exports = { loginController };</pre></td></tr></table></pre>
+    const database = client.db("appdb");
+    const collection = database.collection("user-profile");
+&nbsp;
+    // Fetch user profile data from the database
+    const userProfile = await collection.findOne({ username });
+&nbsp;
+    if (!userProfile) {
+      return res.status(404).json({ error: 'User profile not found' });
+    }
+&nbsp;
+    res.status(200);
+    res.json({ message: 'User profile retrieved successfully', userProfile });
+  } catch (error) {
+    console.error("Error retrieving user profile:", error);
+    res.status(500);
+    res.json({ error: 'Internal server error' });
+  }
+};
+&nbsp;
+module.exports = { userProfileController };
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
