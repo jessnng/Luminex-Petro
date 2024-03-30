@@ -5,6 +5,7 @@ const { authRegisterController } = require('../Luminex-Petro/controllers/registe
 const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm');
 const { loginController } = require('../Luminex-Petro/controllers/loginUser');
 const { updateProfileController } = require('../Luminex-Petro/controllers/profile');
+const FuelPricing = require('../Luminex-Petro/controllers/pricingModule')
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
@@ -70,6 +71,13 @@ app.get('/user-profile', async (req, res) => {
 app.post('/quote-form', function (req, res) {
   quoteFormController
 })
+
+// create pricing module route
+app.get('/calculatePrice/:gallons', (req, res) => {
+  const gallons = parseInt(req.params.gallons);
+  const totalPrice = FuelPricing.calculateTotal(gallons);
+  res.send(`Total price for ${gallons} gallons: $${totalPrice.toFixed(2)}`);
+});
 
 // PORT for dev
 const PORT = process.env.PORT || 3000;
