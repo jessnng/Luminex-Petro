@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-const bcrypt = require('bcrypt');
 const { authRegisterController } = require('../Luminex-Petro/controllers/registerUser');
 const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm');
 const { loginController } = require('../Luminex-Petro/controllers/loginUser');
