@@ -5,6 +5,7 @@ const { authRegisterController } = require('../Luminex-Petro/controllers/registe
 const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm');
 const { loginController } = require('../Luminex-Petro/controllers/loginUser');
 const { updateProfileController } = require('../Luminex-Petro/controllers/profile');
+const { userProfileController } = require('../Luminex-Petro/controllers/userProfile')
 const FuelPricing = require('../Luminex-Petro/controllers/pricingModule')
 
 // allows access to files in folder
@@ -64,7 +65,7 @@ app.post('/profile', function(req, res) {
 
 // Route to render the user profile page
 app.get('/user-profile', async (req, res) => {
-  userProfileController
+  userProfileController(client, req, res)
 });
 
 // create quote form route

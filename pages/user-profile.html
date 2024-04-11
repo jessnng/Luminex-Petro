@@ -9,7 +9,7 @@
         <div class="user-header">
             <h2><i>User Info</i></h2>
         </div>
-
+        <input type="hidden" id="username">
         <div>
             <table class="user-info">
                 <tr>
@@ -61,29 +61,33 @@
     <script src="quote-history.js"></script>
         
       <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if the user is logged in
+            const loggedInUser = localStorage.getItem('loggedInUser');
+                
+            // If user is not logged in, redirect to the login page
+            if (!loggedInUser) {
+                window.location.href = 'login.html';
+            } else {
+                // Populate the hidden username field with the logged-in user's username
+                document.getElementById('username').value = loggedInUser;
+            }
+
              // Fetch user profile data from the server
-            fetch('/user-profile/username = {username}')
+            fetch(`/user-profile?username=${loggedInUser}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log("User profile data received:", data);
                     document.getElementById('fullname').innerText = data.fullname;
-                    document.getElementById('address1').innerText = data.address1;
-                    document.getElementById('address2').innerText = data.address2 || 'N/A';
-                    document.getElementById('city').innerText = data.city;
-                    document.getElementById('state').innerText = data.state;
-                    document.getElementById('zipcode').innerText = data.zipcode;
+                    document.getElementById('address1').innerText = data.address.address1;
+                    document.getElementById('address2').innerText = data.address.address2 || 'N/A';
+                    document.getElementById('city').innerText = data.address.city;
+                    document.getElementById('state').innerText = data.address.state;
+                    document.getElementById('zipcode').innerText = data.address.zipcode;
                 })
                 .catch(error => console.error('Error fetching user profile:', error));
-
-                // Check if the user is logged in
-                const loggedInUser = localStorage.getItem('loggedInUser');
-                
-                // If user is not logged in, redirect to the login page
-                if (!loggedInUser) {
-                    window.location.href = 'login.html';
-                } else {
-                     // Populate the hidden username field with the logged-in user's username
-                    document.getElementById('username').value = loggedInUser;
-                 }
+                // console.log(data)
+            });
         </script>
    </body>
 
