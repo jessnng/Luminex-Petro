@@ -48,18 +48,18 @@ app.get('/', (req, res) => { // calls index.html separately since it's outside o
 });
 
 // LOGIN ROUTE
-app.post('/login', function (client, req, res) {
+app.post('/login', function (req, res) {
   loginController(client, req, res)
 });
 
 // REGISTER USER ROUTE
 app.post('/register', function(req, res) {
-  authRegisterController
+  authRegisterController(req, res)
 });
 
 // Create user profile route
-app.post('/profile/:username/update', function(req, res) {
-  updateProfileController
+app.post('/profile', function(req, res) {
+  updateProfileController(client, req, res)
 });
 
 // Route to render the user profile page

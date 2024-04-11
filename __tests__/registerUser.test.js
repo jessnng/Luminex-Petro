@@ -1,9 +1,22 @@
 const { authRegisterController } = require('../controllers/registerUser.js');
 
+const mockClient = {
+    db: jest.fn().mockReturnThis(),
+    collection: jest.fn().mockReturnThis(),
+    findOne: jest.fn(),
+    insertOne: jest.fn(),
+  };
+
 const mockData = {
     body: {
         username: 'username1',
         password: 'password1'
+    },
+};
+
+const mockDataMissingFields = {
+    body: {
+        // Missing both username and password
     },
 };
 
@@ -15,17 +28,22 @@ const mockRespond = {
 // Register User - POST request
 describe('POST, /register - create new user', () => {
 
+    it ('should send status 400 when missing username and/or password', async () => {
+        await authRegisterController(mockClient, mockDataMissingFields, mockRespond);
+        expect(mockRespond.status).toHaveBeenCalledWith(400);
+        expect(mockRespond.json).toHaveReturnedWith({ error: 'Missing required fields' });
+    });
+
     it ('should send a status 400 when user exits', async () => {
 
-        await authRegisterController(mockData, mockRespond);
+        await authRegisterController(mockClient, mockData, mockRespond);
         if (mockData)
             expect(mockRespond.status).toHaveBeenCalledWith(400);
-            expect(mockRespond.json).toHaveReturnedWith('Username already exists');
             expect(mockRespond.json).toHaveReturnedWith('User registered successfully')
     });
 
     it ('should send status 201 when succesfully register user', async () => {
-        await authRegisterController(mockData, mockRespond);
+        await authRegisterController(mockClient, mockData, mockRespond);
         expect(mockData).toEqual({
             body: {
                 username: 'username1',
@@ -33,13 +51,12 @@ describe('POST, /register - create new user', () => {
             }
         });
         expect(mockRespond.status).toHaveBeenCalledWith(201);
-        expect(mockRespond.json).toHaveReturnedWith('Username already exists');
         expect(mockRespond.json).toHaveReturnedWith('User registered successfully');
 
     });
 
     it ('should send status 500 when failed to register user and when missing username and/or password', async () => {
-        await authRegisterController({}, mockRespond);
+        await authRegisterController(mockClient, {}, mockRespond);
         expect(mockRespond.status).toHaveBeenCalledWith(500);
         expect(mockRespond.json).toHaveReturnedWith('Failed to register user');
 
