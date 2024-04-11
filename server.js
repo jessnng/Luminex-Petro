@@ -54,7 +54,7 @@ app.post('/login', function (req, res) {
 
 // REGISTER USER ROUTE
 app.post('/register', function(req, res) {
-  authRegisterController(req, res)
+  authRegisterController(client, req, res)
 });
 
 // Create user profile route

@@ -60,16 +60,16 @@ module.exports = { authRegisterController };  */
 const bcrypt = require('bcrypt');
 
 // Mock MongoDB client for testing purposes
-const mockDBClient = {
-  db: () => ({
-    collection: () => ({
-      findOne: jest.fn(),
-      insertOne: jest.fn(),
-    }),
-  }),
-};
+// const mockDBClient = {
+//   db: () => ({
+//     collection: () => ({
+//       findOne: jest.fn(),
+//       insertOne: jest.fn(),
+//     }),
+//   }),
+// };
 
-const authRegisterController = async (req, res) => {
+const authRegisterController = async (client, req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -77,7 +77,8 @@ const authRegisterController = async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const db = mockDBClient.db("appdb");
+    const db = client.db("appdb");
+    // const db = mockDBClient.db("appdb");
     const collection = db.collection("users");
 
     const existingUser = await collection.findOne({ username });

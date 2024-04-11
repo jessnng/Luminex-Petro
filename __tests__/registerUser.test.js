@@ -1,11 +1,13 @@
 const { authRegisterController } = require('../controllers/registerUser.js');
 
-const mockClient = {
-    db: jest.fn().mockReturnThis(),
-    collection: jest.fn().mockReturnThis(),
-    findOne: jest.fn(),
-    insertOne: jest.fn(),
-  };
+  const mockDBClient = {
+  db: () => ({
+    collection: () => ({
+      findOne: jest.fn(),
+      insertOne: jest.fn(),
+    }),
+  }),
+};
 
 const mockData = {
     body: {
@@ -29,21 +31,21 @@ const mockRespond = {
 describe('POST, /register - create new user', () => {
 
     it ('should send status 400 when missing username and/or password', async () => {
-        await authRegisterController(mockClient, mockDataMissingFields, mockRespond);
+        await authRegisterController(mockDBClient, mockDataMissingFields, mockRespond);
         expect(mockRespond.status).toHaveBeenCalledWith(400);
         expect(mockRespond.json).toHaveReturnedWith({ error: 'Missing required fields' });
     });
 
     it ('should send a status 400 when user exits', async () => {
 
-        await authRegisterController(mockClient, mockData, mockRespond);
+        await authRegisterController(mockDBClient, mockData, mockRespond);
         if (mockData)
             expect(mockRespond.status).toHaveBeenCalledWith(400);
             expect(mockRespond.json).toHaveReturnedWith('User registered successfully')
     });
 
     it ('should send status 201 when succesfully register user', async () => {
-        await authRegisterController(mockClient, mockData, mockRespond);
+        await authRegisterController(mockDBClient, mockData, mockRespond);
         expect(mockData).toEqual({
             body: {
                 username: 'username1',
@@ -56,7 +58,7 @@ describe('POST, /register - create new user', () => {
     });
 
     it ('should send status 500 when failed to register user and when missing username and/or password', async () => {
-        await authRegisterController(mockClient, {}, mockRespond);
+        await authRegisterController(mockDBClient, {}, mockRespond);
         expect(mockRespond.status).toHaveBeenCalledWith(500);
         expect(mockRespond.json).toHaveReturnedWith('Failed to register user');
 
