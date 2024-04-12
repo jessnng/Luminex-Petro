@@ -52,6 +52,7 @@
             // Populate the hidden username field with the logged-in user's username
             document.getElementById('username').value = loggedInUser;
         }
+        
         // Calculate total amount 
         function calcTotal() {
             var gallons = parseFloat(document.getElementById("gallons").value);
@@ -74,9 +75,9 @@
                     username: loggedInUser,
                     gallons_requested: document.getElementById('fullname').value,
                     delivery_address: document.getElementById('addressInput').value,
-                    delivery_date: document.getElementById('city').value,
-                    price_per_gallon: document.getElementById('state').value,
-                    total_amount: document.getElementById('zipcode').value
+                    delivery_date: document.getElementById('deliveryDate').value,
+                    price_per_gallon: document.getElementById('suggestedPrice').value,
+                    total_amount: document.getElementById('amountDue').value
                 })
             })
             .then(response => {

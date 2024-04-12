@@ -80,10 +80,6 @@ app.get('/calculatePrice/:gallons', (req, res) => {
   res.send(`Total price for ${gallons} gallons: $${totalPrice.toFixed(2)}`);
 });
 
-app.get('/quote-history', function (req, res) {
-  quoteHistoryController
-})
-
 // PORT for dev
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
