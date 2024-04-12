@@ -23,7 +23,7 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -55,7 +55,7 @@ app.post('/login', function (req, res) {
 
 // REGISTER USER ROUTE
 app.post('/register', function(req, res) {
-  authRegisterController(client, req, res)
+  authRegisterController(req, res)
 });
 
 // Create user profile route
