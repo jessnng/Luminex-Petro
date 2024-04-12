@@ -1,3 +1,64 @@
+.header-box{
+    width: 100%;
+    height: 100px;
+    position: relative;
+    background-color: #02162c;
+    margin: 0 auto;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+.main {
+    padding: 15px;
+}
+
+.logo{
+    width: 105px;
+    height: 100px;
+    margin-left: 10px;
+}
+
+.navbar{
+    width: 100%;
+    margin: auto;
+    padding: 0px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.navbar ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 80px;
+    position: relative; 
+    margin-left: 80px;
+    
+}
+
+.navbar ul li a{
+    text-decoration: none;
+    color: #fdce00;
+    text-transform: uppercase;
+    font-family: Arial;
+    font-size: 17px;
+    padding: 10px 20px;
+}
+
+.navbar ul li::after{
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #fdce00;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+.navbar ul li:hover::after{
+    width: 100%;
+}
+
 :root{
     font-family: Arial;
     text-align: center;
@@ -9,8 +70,6 @@
     background-size: cover;
     background-attachment: fixed;
     background-blend-mode: lighten;
-    
-
 }
 
 .profile-header {
@@ -19,8 +78,7 @@
     align-items: center;
 }
 
-
-body {
+.box {
     font-size: 12pt;
     border: 5px solid #6a6868;
     padding: 5px;
@@ -31,7 +89,18 @@ body {
     padding: 1rem;
     position: relative;
     margin: 5% 20% 0 20%;
+}
 
+body {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    font-family: sans-serif;
+    line-height: 1;
+    min-height: 100vh;
+    background: #f3f3f3;
+    flex-direction: column;
+    margin: 0;
 }
 
 form {
@@ -95,48 +164,4 @@ table td{
 .user-info{
     margin-left: auto;
     margin-right: auto;
-}
-
-.homebutton{
-    text-align: center;
-    width:97px;
-    display: flexbox;
-    border-radius: 5px;
-    flex-flow: wrap;
-    background-color: #fdce00;
-    align-items: center;
-    border: none;
-    padding: 5pt;
-    padding: 9.5px;
-    box-sizing: border-box;
-    margin: 15px 0;
-    color:#000000;
-    cursor: pointer;
-    bottom: 50%;
-    font-size: 11pt;
-}
-
-
-.fuelquote-header{
-    padding-top: 2rem;
-}
-.quote-history-container{
-    padding: 0 1rem 0 1rem;
-}
-.quote-history-container table{
-    border-spacing: 0;
-}
-.quote-history-container th {
-    padding: 1rem;
-    background-color: aliceblue;
-    height: 2rem; 
-}
-.quote-history-container td{
-    padding: 10px;
-    text-align: center;
-    border-top: 1px solid lightgrey;
-    height: 2rem;
-}
-.quote-history-container tr:hover {
-    background-color: #fafafa;
 }

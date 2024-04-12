@@ -13,6 +13,7 @@
                 <p>Please fill in the indicated fields</p>
             </div>
             <form id="quoteForm">
+                <input type="hidden" id="username" name="username">
                 <label for="gallonsRequest">Gallons Requested<span style="color: red;">*</span>: </label>
                 <input type="number" id="gallons" oninput="calcTotal()" required><br>
 
@@ -41,6 +42,16 @@
     </body>
 
     <script>
+        // Check if the user is logged in
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        
+        // If user is not logged in, redirect to the login page
+        if (!loggedInUser) {
+            window.location.href = 'login.html';
+        } else {
+            // Populate the hidden username field with the logged-in user's username
+            document.getElementById('username').value = loggedInUser;
+        }
         // Calculate total amount 
         function calcTotal() {
             var gallons = parseFloat(document.getElementById("gallons").value);
@@ -59,7 +70,14 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formDataObject)
+                body: JSON.stringify({
+                    username: loggedInUser,
+                    gallons_requested: document.getElementById('fullname').value,
+                    delivery_address: document.getElementById('addressInput').value,
+                    delivery_date: document.getElementById('city').value,
+                    price_per_gallon: document.getElementById('state').value,
+                    total_amount: document.getElementById('zipcode').value
+                })
             })
             .then(response => {
                 if (!response.ok) {
@@ -73,5 +91,4 @@
       });
     });
     </script>
-
 </html>

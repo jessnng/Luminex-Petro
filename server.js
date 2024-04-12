@@ -23,7 +23,7 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+const uri = "mongodb+srv://<user>:<pass>@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&w=majority&appName=Luminex-Petro";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -79,6 +79,10 @@ app.get('/calculatePrice/:gallons', (req, res) => {
   const totalPrice = FuelPricing.calculateTotal(gallons);
   res.send(`Total price for ${gallons} gallons: $${totalPrice.toFixed(2)}`);
 });
+
+app.get('/quote-history', function (req, res) {
+  quoteHistoryController
+})
 
 // PORT for dev
 const PORT = process.env.PORT || 3000;

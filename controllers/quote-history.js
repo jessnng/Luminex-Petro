@@ -41,3 +41,5 @@ function populateTable(data) {
         table.append(row);
     });
 }
+
+module.exports = { quoteHistoryController };
