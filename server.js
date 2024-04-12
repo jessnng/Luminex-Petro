@@ -6,7 +6,9 @@ const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm'
 const { loginController } = require('../Luminex-Petro/controllers/loginUser');
 const { updateProfileController } = require('../Luminex-Petro/controllers/profile');
 const { userProfileController } = require('../Luminex-Petro/controllers/userProfile')
+const { quoteHistoryController } = require('../Luminex-Petro/controllers/quoteHistory');
 const FuelPricing = require('../Luminex-Petro/controllers/pricingModule')
+
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
@@ -23,7 +25,8 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<user>:<pass>@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&w=majority&appName=Luminex-Petro";
+
+const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&w=majority&appName=Luminex-Petro";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -72,6 +75,10 @@ app.get('/user-profile', async (req, res) => {
 app.post('/quote-form', function (req, res) {
   quoteFormController
 })
+
+app.post('/quote-history', async (req, res) => {
+  quoteHistoryController(client, req, res)
+});
 
 // create pricing module route
 app.get('/calculatePrice/:gallons', (req, res) => {
