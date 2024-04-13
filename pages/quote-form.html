@@ -1,95 +1,105 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Fuel Quote Request Form</title>
-        <link rel="stylesheet" href="../style/fuel-quote.css">
-    </head>
 
-    <body>
-        <div class="form-container">
-            <div class="header">
-                <h1>Fuel Quote Request</h1>
-                <p>Please fill in the indicated fields</p>
-            </div>
-            <form id="quoteForm">
-                <input type="hidden" id="username" name="username">
-                <label for="gallonsRequest">Gallons Requested<span style="color: red;">*</span>: </label>
-                <input type="number" id="gallons" oninput="calcTotal()" required><br>
+<head>
+    <meta charset="UTF-8">
+    <title>Fuel Quote Request Form</title>
+    <link rel="stylesheet" href="../style/fuel-quote.css">
+</head>
 
-                <label for="deliveryAddress">Delivery Address: </label>
-                <!-- IMPLEMENT VALUE FROM CLIENT PROFILE -->
-                <input type="text" class="readonly-input" id="addressInput" readonly>
-                <br>
-
-                <label for="deliveryDate">Delivery Date: </label>
-                <input type="date"><br>
-
-                <!-- PLACEHOLDER VALUE. IMPLEMENT VALUE FROM PRICING MODULE -->
-                <label for="suggestedPrice">Suggested Price per Gallon: </label>
-                <input type="number" class="readonly-input" id="price" value="2.99" readonly><br>
-                
-                <!-- CALCULATED BY GALLONS * PRICE -->
-                <label for="amountDue">Total Amount Due: </label>
-                <input type="number" class="readonly-input" id="total"><br>
-
-                <input type="submit" value="Submit">
-            </form>
-            <a href="/">
-                <button class="homebutton">Home</button>
-                    </a>
+<body>
+    <header class="header-box">
+        <div class="navbar">
+            <a href="/"><img src="../images/logo.jpg" class="logo"></a>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="user-profile.html">Profile Home</a></li>
+                <li><a href="quote-history.html">Fuel History</a></li>
+            </ul>
         </div>
-    </body>
+    </header>
 
-    <script>
-        // Check if the user is logged in
-        const loggedInUser = localStorage.getItem('loggedInUser');
+    <div class="form-container">
+        <div class="header">
+            <h1>Fuel Quote Request</h1>
+            <p>Please fill in the indicated fields</p>
+        </div>
+        <form id="quoteForm" action="/quote-form" method="post">
+            <input type="hidden" id="username" name="username">
+            <label for="gallonsRequest">Gallons Requested<span style="color: red;">*</span>: </label>
+            <input type="number" id="gallons" oninput="calcTotal()" required><br>
+
+            <label for="deliveryAddress">Delivery Address: </label>
+            <!-- IMPLEMENT VALUE FROM CLIENT PROFILE -->
+            <input type="text" class="readonly-input" id="addressInput" readonly>
+            <br>
+
+            <label for="deliveryDate">Delivery Date: </label>
+            <input type="date"><br>
+
+            <!-- PLACEHOLDER VALUE. IMPLEMENT VALUE FROM PRICING MODULE -->
+            <label for="suggestedPrice">Suggested Price per Gallon: </label>
+            <input type="number" class="readonly-input" id="price" value="2.99" readonly><br>
+
+            <!-- CALCULATED BY GALLONS * PRICE -->
+            <label for="amountDue">Total Amount Due: </label>
+            <input type="number" class="readonly-input" id="total"><br>
+            
+            <button type="submit">Submit</button>
+        </form>
         
-        // If user is not logged in, redirect to the login page
-        if (!loggedInUser) {
-            window.location.href = 'login.html';
-        } else {
-            // Populate the hidden username field with the logged-in user's username
-            document.getElementById('username').value = loggedInUser;
-        }
-        
-        // Calculate total amount 
-        function calcTotal() {
-            var gallons = parseFloat(document.getElementById("gallons").value);
-            var total = gallons * price;
-            document.getElementById("amountDue").value = total.toFixed(2);
-        }
+    </div>
+</body>
 
-        document.getElementById('quoteForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
+<script src="quoteForm.js"></script>
 
-            const formData = new FormData(this); // Get form data
-            const formDataObject = Object.fromEntries(formData.entries()); // Convert FormData to object
+<script>
+    // Check if the user is logged in
+    const loggedInUser = localStorage.getItem('loggedInUser');
 
-            fetch('/quote-form', {
+    // If user is not logged in, redirect to the login page
+    if (!loggedInUser) {
+        window.location.href = 'login.html';
+    } else {
+        // Populate the hidden username field with the logged-in user's username
+        document.getElementById('username').value = loggedInUser;
+    }
+
+    // Calculate total amount 
+    function calcTotal() {
+        var gallons = parseFloat(document.getElementById("gallons").value);
+        var total = gallons * price;
+        document.getElementById("amountDue").value = total.toFixed(2);
+    }
+
+    const fetch = require('node-fetch');
+
+    document.getElementById('quoteForm').addEventListener('submit', async function handleFormSubmission(event) {
+        event.preventDefault(); // Prevent form submission
+
+        const form = event.target;
+        const formData = new FormData(form); // Get form data
+
+        try {
+            const response = await fetch('/quote-form', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Conetent-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    username: loggedInUser,
-                    gallons_requested: document.getElementById('fullname').value,
-                    delivery_address: document.getElementById('addressInput').value,
-                    delivery_date: document.getElementById('deliveryDate').value,
-                    price_per_gallon: document.getElementById('suggestedPrice').value,
-                    total_amount: document.getElementById('amountDue').value
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .catch(error => {
-                console.error('Error:', error.message);
-                alert('Quote form failed to submit.');
-      });
+                body: JSON.stringify(Object.fromEntries(formData.entries()))
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            alert('Fuel quote form submitted successfully!');
+        } catch (error) {
+            console.error('Error:', error.message);
+            alert('Failed to submit fuel quote. Please try again later.');
+        }
+        document.getElementById('quote-form').addEventListener('submit', handleFormSubmission);
     });
-    </script>
+</script>
+
 </html>

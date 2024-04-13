@@ -1,14 +1,11 @@
 // CONNECT TO MONGODB ATLAS
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&w=majority&appName=Luminex-Petro";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
+const client = new MongoClient(uri, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
 });
 async function run() {
   try {
@@ -18,18 +15,21 @@ async function run() {
     console.error(err);
   }
 }
-run().catch(console.dir);
+run().catch(console.error);
 
-const quoteFormController = async (req, res, userData) => {
+const quoteFormController = async (req, res) => {
 
     try {
-      const { gallonsRequest } = req.body;
+      const { gallonsRequest, deliveryAddress, deliveryDate, suggestedPrice, amountDue } = req.body;
       if (!gallonsRequest)
       {
         return res.status(400).json({ error: "A value is needed for gallons requested."})
       }
 
-      const { deliveryAddress, suggestedPrice, amountDue } = userData;
+      const db = client.db("appdb");
+      const collection = db.collection("fuel-quotes");
+
+      //const { deliveryAddress, suggestedPrice, amountDue } = userData;
   
       // var deliveryAddress = sessionStorage.getItem("userAddress");
       // var suggestedPrice = sessionStorage.getItem("suggestedPrice");
@@ -43,11 +43,9 @@ const quoteFormController = async (req, res, userData) => {
         amountDue
       };
   
-      const db = client.db("appdb");
-      const collection = db.collection("quote-history");
-  
       // add to quote history collection
       await collection.insertOne({data});
+      await client.close();
   
       res.status(200);
       res.json({ message: 'Quote form successfully submitted.'})
