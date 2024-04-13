@@ -98,7 +98,7 @@ const authRegisterController = async (req, res) => {
     await client.close();
 
     // Redirect user to Profile.html to complete their profile
-    res.status(201).json({ message: 'User registered successfully', redirectTo: 'login.html' });
+    res.status(201).json({ message: 'User registered successfully', redirectTo: '/Profile.html' });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Failed to register user" });
@@ -106,3 +106,4 @@ const authRegisterController = async (req, res) => {
 };
 
 module.exports = { authRegisterController };
+

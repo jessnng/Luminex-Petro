@@ -1,12 +1,17 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-const { authRegisterController } = require('../Luminex-Petro/controllers/registerUser');
-const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm');
-const { loginController } = require('../Luminex-Petro/controllers/loginUser');
-const { updateProfileController } = require('../Luminex-Petro/controllers/profile');
-const { userProfileController } = require('../Luminex-Petro/controllers/userProfile')
-const FuelPricing = require('../Luminex-Petro/controllers/pricingModule')
+const bodyParser = require('body-parser');
+const { authRegisterController } = require('../Luminex Petro/controllers/registerUser');
+const { quoteFormController } = require('../Luminex Petro/controllers/quoteForm');
+const { loginController } = require('../Luminex Petro/controllers/loginUser');
+const { updateProfileController } = require('../Luminex Petro/controllers/profile');
+const { userProfileController } = require('../Luminex Petro/controllers/userProfile')
+const FuelPricing = require('../Luminex Petro/controllers/pricingModule')
+
+// Use body-parser middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
