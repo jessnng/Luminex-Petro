@@ -4,6 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const { authRegisterController } = require('../Luminex Petro/controllers/registerUser');
 const { quoteFormController } = require('../Luminex Petro/controllers/quoteForm');
+const { quoteHistoryController } = require('../Luminex Petro/controllers/quoteHistory');
 const { loginController } = require('../Luminex Petro/controllers/loginUser');
 const { updateProfileController } = require('../Luminex Petro/controllers/profile');
 const { userProfileController } = require('../Luminex Petro/controllers/userProfile')
@@ -78,6 +79,9 @@ app.post('/quote-form', function (req, res) {
   quoteFormController
 })
 
+app.get('/quote-history', async (req, res) => {
+  quoteHistoryController(client, req, res);
+});
 app.post('/quote-history', async (req, res) => {
   quoteHistoryController(client, req, res)
 });

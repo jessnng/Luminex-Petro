@@ -1,13 +1,13 @@
 const quoteHistoryController = async (client, req, res) => {
     try {
-      const loggedInUser = req.headers.authorization; // Assuming user authentication token is passed in headers
+      const loggedInUser = req.query.username;
   
       if (!loggedInUser) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
   
       const database = client.db("appdb");
-      const collection = database.collection("quotes");
+      const collection = database.collection("fuel-quotes");
   
       // Fetch quote history data from the database
       const quoteHistory = await collection.find({ username: loggedInUser }).toArray();

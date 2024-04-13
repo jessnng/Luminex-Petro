@@ -61,13 +61,35 @@
 
                     data.forEach(item => {
                         const row = document.createElement('tr');
-                        ['gallons_requested', 'delivery_address', 'delivery_date', 'price_per_gallon', 'total_amount'].forEach(property => {
-                            const cell = document.createElement('td');
-                            cell.textContent = item[property];
-                            row.appendChild(cell);
-                        });
-                    tableBody.appendChild(row);
-                });
+                        
+                        // Create cells for each data item
+                        const gallonsCell = document.createElement('td');
+                        const addressCell = document.createElement('td'); // Change from 'delivery_address' to 'address'
+                        const deliveryDateCell = document.createElement('td');
+                        const pricePerGallonCell = document.createElement('td');
+                        const totalAmountCell = document.createElement('td');
+
+                        // Set cell contents
+                        gallonsCell.textContent = item.gallons_requested;
+                        // Concatenate address properties to form the complete address
+                        let addressString = `${item.delivery_address.address1}`;
+                        if (item.delivery_address.address2 !== '') {
+                            addressString += `, ${item.delivery_address.address2}`;
+                        }
+                        addressString += `, ${item.delivery_address.city}, ${item.delivery_address.state}, ${item.delivery_address.zipcode}`;
+                        addressCell.textContent = addressString;
+                        deliveryDateCell.textContent = item.delivery_date;
+                        pricePerGallonCell.textContent = item.price_per_gallon;
+                        totalAmountCell.textContent = item.total_amount;
+
+                        // Append cells to the row
+                        row.appendChild(gallonsCell);
+                        row.appendChild(addressCell);
+                        row.appendChild(deliveryDateCell);
+                        row.appendChild(pricePerGallonCell);
+                        row.appendChild(totalAmountCell);
+                        tableBody.appendChild(row);
+                    });
                 })
                 .catch(error => console.error('Error fetching quote history:', error));
                 // console.log(data)

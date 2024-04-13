@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-
 const userProfileController = async (client, req, res) => {
   try {
     const { username } = req.query; // Assuming username is passed as a query parameter
