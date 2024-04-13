@@ -1,3 +1,64 @@
+.header-box{
+    width: 100%;
+    height: 100px;
+    position: relative;
+    background-color: #02162c;
+    margin: 0 auto;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+.main {
+    padding: 15px;
+}
+
+.logo{
+    width: 105px;
+    height: 100px;
+    margin-left: 10px;
+}
+
+.navbar{
+    width: 100%;
+    margin: auto;
+    padding: 0px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.navbar ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 80px;
+    position: relative; 
+    margin-left: 80px;
+    
+}
+
+.navbar ul li a{
+    text-decoration: none;
+    color: #fdce00;
+    text-transform: uppercase;
+    font-family: Arial;
+    font-size: 17px;
+    padding: 10px 20px;
+}
+
+.navbar ul li::after{
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #fdce00;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+.navbar ul li:hover::after{
+    width: 100%;
+}
+/* Body */
 body{
     padding: 0;
     margin: 0;
