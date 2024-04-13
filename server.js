@@ -28,7 +28,7 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb";
+const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&w=majority&appName=Luminex-Petro";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -77,6 +77,10 @@ app.get('/user-profile', async (req, res) => {
 app.post('/quote-form', function (req, res) {
   quoteFormController
 })
+
+app.post('/quote-history', async (req, res) => {
+  quoteHistoryController(client, req, res)
+});
 
 // create pricing module route
 app.get('/calculatePrice/:gallons', (req, res) => {
