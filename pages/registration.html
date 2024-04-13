@@ -61,7 +61,7 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ username, password, confirmPassword })
         });
   
         console.log('Response:', response); // Debugging statement
@@ -91,4 +91,3 @@
 </body>
 
 </html>
-

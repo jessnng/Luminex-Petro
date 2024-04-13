@@ -107,5 +107,3 @@ const authRegisterController = async (req, res) => {
 
 module.exports = { authRegisterController };
 
-
-
