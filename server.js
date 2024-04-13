@@ -7,7 +7,8 @@ const { quoteFormController } = require('../Luminex Petro/controllers/quoteForm'
 const { quoteHistoryController } = require('../Luminex Petro/controllers/quoteHistory');
 const { loginController } = require('../Luminex Petro/controllers/loginUser');
 const { updateProfileController } = require('../Luminex Petro/controllers/profile');
-const { userProfileController } = require('../Luminex Petro/controllers/userProfile')
+const { userProfileController } = require('../Luminex Petro/controllers/userProfile');
+const { getAddressController } = require('../Luminex Petro/controllers/getAddress')
 const FuelPricing = require('../Luminex Petro/controllers/pricingModule')
 
 // Use body-parser middleware
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
+app.use(express.static(path.join(__dirname, 'controllers')));
 app.use('/style', express.static(path.join(__dirname, 'style')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
@@ -76,14 +78,15 @@ app.get('/user-profile', async (req, res) => {
 
 // create quote form route
 app.post('/quote-form', function (req, res) {
-  quoteFormController
+  quoteFormController(client, req, res)
 })
 
 app.get('/quote-history', async (req, res) => {
   quoteHistoryController(client, req, res);
 });
-app.post('/quote-history', async (req, res) => {
-  quoteHistoryController(client, req, res)
+
+app.post('/get-address', async (req, res) => {
+  getAddressController(client, req, res);
 });
 
 // create pricing module route

@@ -1,26 +1,26 @@
 // CONNECT TO MONGODB ATLAS
-const { MongoClient } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&w=majority&appName=Luminex-Petro";
+// const { MongoClient } = require('mongodb');
+// // const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&w=majority&appName=Luminex-Petro";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-});
-async function run() {
-  try {
-    await client.connect();
-    //console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } catch(err) {
-    console.error(err);
-  }
-}
-run().catch(console.error);
+// const client = new MongoClient(uri, { 
+//   useNewUrlParser: true, 
+//   useUnifiedTopology: true 
+// });
+// async function run() {
+//   try {
+//     await client.connect();
+//     //console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//   } catch(err) {
+//     console.error(err);
+//   }
+// }
+// run().catch(console.error);
 
-const quoteFormController = async (req, res) => {
+const quoteFormController = async (client, req, res) => {
 
     try {
-      const { gallonsRequest, deliveryAddress, deliveryDate, suggestedPrice, amountDue } = req.body;
+      const { username, gallonsRequest, deliveryAddress, deliveryDate, suggestedPrice, amountDue } = req.body;
       if (!gallonsRequest)
       {
         return res.status(400).json({ error: "A value is needed for gallons requested."})
@@ -44,7 +44,7 @@ const quoteFormController = async (req, res) => {
       };
   
       // add to quote history collection
-      await collection.insertOne({data});
+      await collection.insertOne({username, data});
       await client.close();
   
       res.status(200);

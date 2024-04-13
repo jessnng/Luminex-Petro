@@ -1,10 +1,11 @@
-const { quoteHistoryController } = require('../controllers/quote-history');
+const { query } = require('express');
+const { quoteHistoryController } = require('../controllers/quoteHistory');
 
 describe('quoteHistoryController', () => {
   it('should return quote history for a logged-in user', async () => {
     // Mock request and response objects
     const req = {
-      headers: {
+      query: {
         authorization: 'mockAuthToken'
       }
     };
@@ -37,7 +38,7 @@ describe('quoteHistoryController', () => {
   it('should return 401 for an unauthorized user', async () => {
     // Mock request object with no authorization header
     const req = {
-      headers: {}
+      query: {}
     };
 
     // Mock response methods
@@ -63,8 +64,8 @@ describe('quoteHistoryController', () => {
   it('should return 404 if quote history is not found', async () => {
     // Mock request object with a logged-in user
     const req = {
-      headers: {
-        authorization: 'mockAuthToken'
+      query: {
+        username: 'mockUser'
       }
     };
 
@@ -96,8 +97,8 @@ describe('quoteHistoryController', () => {
   it('should return 500 if an error occurs', async () => {
     // Mock request object with a logged-in user
     const req = {
-      headers: {
-        authorization: 'mockAuthToken'
+      query: {
+        username: 'mockUser'
       }
     };
 
