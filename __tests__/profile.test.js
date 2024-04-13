@@ -33,7 +33,7 @@ describe('updateProfileController', () => {
         // Modify request to have missing required fields
         delete req.body.fullname;
 
-        await updateProfileController(req, res);
+        await updateProfileController(null, req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({ error: 'Missing required fields' });
@@ -65,7 +65,7 @@ describe('updateProfileController', () => {
         // Mock MongoClient.connect method to return clientMock
         MongoClient.connect.mockResolvedValueOnce(clientMock);
 
-        await updateProfileController(req, res);
+        await updateProfileController(clientMock, req, res);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ message: 'Profile updated successfully' });
@@ -81,7 +81,7 @@ describe('updateProfileController', () => {
         // Mock MongoClient.connect method to return clientMock
         MongoClient.connect.mockResolvedValueOnce(clientMock);
 
-        await updateProfileController(req, res);
+        await updateProfileController(clientMock, req, res);
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ error: 'Failed to update profile' });
@@ -91,7 +91,7 @@ describe('updateProfileController', () => {
         // Mock MongoClient.connect to throw an error
         MongoClient.connect.mockRejectedValueOnce(new Error('Connection error'));
 
-        await updateProfileController(req, res);
+        await updateProfileController(null, req, res);
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ error: 'Internal server error' });

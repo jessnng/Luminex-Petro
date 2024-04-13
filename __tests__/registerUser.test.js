@@ -1,47 +1,83 @@
-const { authRegisterController } = require('../controllers/registerUser.js');
+const { authRegisterController } = require('../controllers/registerUser');
+const { MongoClient } = require('mongodb');
+const bcrypt = require('bcrypt');
 
-const mockData = {
-    body: {
-        username: 'username1',
-        password: 'password1'
-    },
+// Mock req and res objects
+const mockRequest = (body = {}) => ({
+  body
+});
+
+const mockResponse = () => {
+  const res = {};
+  res.status = jest.fn().mockReturnValue(res);
+  res.json = jest.fn().mockReturnValue(res);
+  return res;
 };
 
-const mockRespond = {
-    status: jest.fn((x) => x),
-    json: jest.fn((x) => x),
-};
+// Mock MongoClient and bcrypt
+jest.mock('mongodb');
+jest.mock('bcrypt');
 
-// Register User - POST request
-describe('POST, /register - create new user', () => {
+describe('authRegisterController', () => {
+  let req;
+  let res;
 
-    it ('should send a status 400 when user exits', async () => {
+  beforeEach(() => {
+    req = mockRequest();
+    res = mockResponse();
+  });
 
-        await authRegisterController(mockData, mockRespond);
-        if (mockData)
-            expect(mockRespond.status).toHaveBeenCalledWith(400);
-            expect(mockRespond.json).toHaveReturnedWith('Username already exists');
-            expect(mockRespond.json).toHaveReturnedWith('User registered successfully')
-    });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-    it ('should send status 201 when succesfully register user', async () => {
-        await authRegisterController(mockData, mockRespond);
-        expect(mockData).toEqual({
-            body: {
-                username: 'username1',
-                password: expect.anything()
-            }
-        });
-        expect(mockRespond.status).toHaveBeenCalledWith(201);
-        expect(mockRespond.json).toHaveReturnedWith('Username already exists');
-        expect(mockRespond.json).toHaveReturnedWith('User registered successfully');
+  it('should return 400 if missing required fields', async () => {
+    await authRegisterController(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Missing required fields' });
+  });
 
-    });
+  it('should return 400 if password and confirmPassword do not match', async () => {
+    req.body = { username: 'testuser', password: 'password1', confirmPassword: 'password2' };
+    await authRegisterController(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Password and confirmed password do not match' });
+  });
 
-    it ('should send status 500 when failed to register user and when missing username and/or password', async () => {
-        await authRegisterController({}, mockRespond);
-        expect(mockRespond.status).toHaveBeenCalledWith(500);
-        expect(mockRespond.json).toHaveReturnedWith('Failed to register user');
+  it('should return 400 if username already exists', async () => {
+    // Mock findOne to return existing user
+    const findOneMock = jest.fn().mockResolvedValue({ username: 'existingUser' });
+    MongoClient.prototype.db.mockReturnValueOnce({ collection: jest.fn().mockReturnValueOnce({ findOne: findOneMock }) });
 
-    })
+    req.body = { username: 'existingUser', password: 'password', confirmPassword: 'password' };
+    await authRegisterController(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Username already exists' });
+  });
+
+  it('should return 201 if user registered successfully', async () => {
+    // Mock findOne to return null (user does not exist)
+    const findOneMock = jest.fn().mockResolvedValue(null);
+    MongoClient.prototype.db.mockReturnValueOnce({ collection: jest.fn().mockReturnValueOnce({ findOne: findOneMock }) });
+
+    // Mock bcrypt.hash to return hashed password
+    const hashedPassword = '$2b$10$yJcVhDMeBTadJqL7cSzSDOM10tGv3I4qstTnzw2EhaFQ88n4fLkNu';
+    bcrypt.hash.mockResolvedValue(hashedPassword);
+
+    req.body = { username: 'newUser', password: 'password', confirmPassword: 'password' };
+    await authRegisterController(req, res);
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({ message: 'User registered successfully', redirectTo: 'login.html' });
+  });
+
+  it('should return 500 if an error occurs', async () => {
+    // Mock findOne to throw an error
+    const findOneMock = jest.fn().mockRejectedValue(new Error('Database error'));
+    MongoClient.prototype.db.mockReturnValueOnce({ collection: jest.fn().mockReturnValueOnce({ findOne: findOneMock }) });
+
+    req.body = { username: 'testuser', password: 'password', confirmPassword: 'password' };
+    await authRegisterController(req, res);
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith({ message: 'Failed to register user' });
+  });
 });

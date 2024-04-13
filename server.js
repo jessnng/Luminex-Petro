@@ -5,6 +5,7 @@ const { authRegisterController } = require('../Luminex-Petro/controllers/registe
 const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm');
 const { loginController } = require('../Luminex-Petro/controllers/loginUser');
 const { updateProfileController } = require('../Luminex-Petro/controllers/profile');
+const { userProfileController } = require('../Luminex-Petro/controllers/userProfile')
 const FuelPricing = require('../Luminex-Petro/controllers/pricingModule')
 
 // allows access to files in folder
@@ -22,7 +23,7 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@test.4hg8rme.mongodb.net/?retryWrites=true&w=majority&appName=test";
+const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -48,23 +49,23 @@ app.get('/', (req, res) => { // calls index.html separately since it's outside o
 });
 
 // LOGIN ROUTE
-app.post('/login', function (client, req, res) {
+app.post('/login', function (req, res) {
   loginController(client, req, res)
 });
 
 // REGISTER USER ROUTE
 app.post('/register', function(req, res) {
-  authRegisterController
+  authRegisterController(req, res)
 });
 
 // Create user profile route
-app.post('/profile/:username/update', function(req, res) {
-  updateProfileController
+app.post('/profile', function(req, res) {
+  updateProfileController(client, req, res)
 });
 
 // Route to render the user profile page
 app.get('/user-profile', async (req, res) => {
-  userProfileController
+  userProfileController(client, req, res)
 });
 
 // create quote form route

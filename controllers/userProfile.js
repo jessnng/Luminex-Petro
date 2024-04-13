@@ -9,7 +9,7 @@ const userProfileController = async (client, req, res) => {
     }
 
     const database = client.db("appdb");
-    const collection = database.collection("user-profile");
+    const collection = database.collection("users");
 
     // Fetch user profile data from the database
     const userProfile = await collection.findOne({ username });
@@ -18,8 +18,8 @@ const userProfileController = async (client, req, res) => {
       return res.status(404).json({ error: 'User profile not found' });
     }
 
-    res.status(200);
-    res.json({ message: 'User profile retrieved successfully', userProfile });
+    res.status(200).json(userProfile);
+    // res.json({ message: 'User profile retrieved successfully', userProfile });
   } catch (error) {
     console.error("Error retrieving user profile:", error);
     res.status(500);

@@ -72,6 +72,7 @@
         console.log(data);
         console.log('User ', data.username, ' found');
         if (data && data.redirectTo === '/Profile.html') {
+          localStorage.setItem('loggedInUser', data.username);
           window.location.href = 'Profile.html';
         } 
         else if(data && data.redirectTo === '/user-profile.html') {
