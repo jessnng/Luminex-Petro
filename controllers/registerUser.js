@@ -58,40 +58,47 @@ const authRegisterController = async(req, res) => {
 module.exports = { authRegisterController };  */
 
 const bcrypt = require('bcrypt');
+const { MongoClient } = require('mongodb');
+const mongoURL= 'mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb';
 
-// Mock MongoDB client for testing purposes
-// const mockDBClient = {
-//   db: () => ({
-//     collection: () => ({
-//       findOne: jest.fn(),
-//       insertOne: jest.fn(),
-//     }),
-//   }),
-// };
-
-const authRegisterController = async (client, req, res) => {
+const authRegisterController = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, confirmPassword } = req.body;
 
-    if (!username || !password) {
+    // Check for missing fields
+    if (!username || !password || !confirmPassword) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    // Check if password and confirmed password match
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: 'Password and confirmed password do not match' });
+    }
+    
+
+    // Connect to the MongoDB database
+    const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
     const db = client.db("appdb");
-    // const db = mockDBClient.db("appdb");
     const collection = db.collection("users");
 
+    // Check if username already exists
     const existingUser = await collection.findOne({ username });
     if (existingUser) {
-      return res.status(400).json("Username already exists");
+      return res.status(400).json({ error: 'Username already exists' });
     }
 
     // Encrypt password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert new user into the database
     await collection.insertOne({ username, password: hashedPassword });
 
-    // Redirect user to Profile.html upon successful registration
-    res.status(201).json({ redirectTo: '/Profile.html' });
+    // Close the database connection
+    await client.close();
+
+    // Redirect user to Profile.html to complete their profile
+    res.status(201).json({ message: 'User registered successfully', redirectTo: '/Profile.html' });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Failed to register user" });

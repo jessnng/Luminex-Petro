@@ -1,14 +1,17 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-const { authRegisterController } = require('../Luminex-Petro/controllers/registerUser');
-const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm');
-const { loginController } = require('../Luminex-Petro/controllers/loginUser');
-const { updateProfileController } = require('../Luminex-Petro/controllers/profile');
-const { userProfileController } = require('../Luminex-Petro/controllers/userProfile')
-const { quoteHistoryController } = require('../Luminex-Petro/controllers/quoteHistory');
-const FuelPricing = require('../Luminex-Petro/controllers/pricingModule')
+const bodyParser = require('body-parser');
+const { authRegisterController } = require('../Luminex Petro/controllers/registerUser');
+const { quoteFormController } = require('../Luminex Petro/controllers/quoteForm');
+const { loginController } = require('../Luminex Petro/controllers/loginUser');
+const { updateProfileController } = require('../Luminex Petro/controllers/profile');
+const { userProfileController } = require('../Luminex Petro/controllers/userProfile')
+const FuelPricing = require('../Luminex Petro/controllers/pricingModule')
 
+// Use body-parser middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
@@ -25,7 +28,6 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
 const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&w=majority&appName=Luminex-Petro";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -58,7 +60,7 @@ app.post('/login', function (req, res) {
 
 // REGISTER USER ROUTE
 app.post('/register', function(req, res) {
-  authRegisterController(client, req, res)
+  authRegisterController(req, res)
 });
 
 // Create user profile route
