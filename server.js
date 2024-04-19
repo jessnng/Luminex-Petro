@@ -9,7 +9,8 @@ const { loginController } = require('../Luminex Petro/controllers/loginUser');
 const { updateProfileController } = require('../Luminex Petro/controllers/profile');
 const { userProfileController } = require('../Luminex Petro/controllers/userProfile');
 const { getAddressController } = require('../Luminex Petro/controllers/getAddress')
-const FuelPricing = require('../Luminex Petro/controllers/pricingModule')
+const { FuelPricing } = require('../Luminex Petro/controllers/pricingModule')
+const { getPricePerGallon } = require('../Luminex Petro/controllers/pricingModule')
 
 // Use body-parser middleware
 app.use(bodyParser.json());
