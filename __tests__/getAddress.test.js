@@ -37,7 +37,7 @@ describe('getAddressController', () => {
     await getAddressController(client, req, res);
 
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ address: '123 Street, City, State 12345' });
+    expect(res.json).toHaveBeenCalledWith({ address: existingUser.address });
   });
 
   it('should return 404 if user is not found', async () => {

@@ -79,11 +79,18 @@
         if (!addressResponse.ok) {
             throw new Error('Failed to fetch address');
         }
-
         const addressData = await addressResponse.json();
-        document.getElementById("addressInput").value = addressData.address;
 
-        const state = addressData.state.toUpperCase(); // Normalize state to uppercase
+        let formattedAddress = addressData.address.address1;
+        if (addressData.address.address2) {
+            formattedAddress += ", " + addressData.address.address2;
+        }
+        formattedAddress += ", " + addressData.address.city + ", " + addressData.address.state + ", " + addressData.address.zipcode;
+
+        // Set the value of the address field
+        document.getElementById("addressInput").value = formattedAddress;
+
+        const state = addressData.address.state.toUpperCase(); // Normalize state to uppercase
         const locationFactor = (state === "TX") ? 0.02 : 0.04;
         document.getElementById("locationFactor").value = locationFactor;
 
