@@ -132,14 +132,14 @@ input[type=submit]{
 
 .quotebutton{
     height:30px;
-    width:700px;
+    width: 70%;
     justify-content: center;
     margin-left: 12%;
 }
 
 .submitbutton{
     height:30px;
-    width:700px;
+    width: 70%;
     justify-content: center;
     margin-left: 12%;
     margin-top: 10px;
