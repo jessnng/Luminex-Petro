@@ -20,6 +20,7 @@
 }
 
 .picture{
+    position: relative;
     max-width: auto;
     height: 75vh;
     background-image: url(../images/Oil.jpg);
@@ -46,13 +47,19 @@
     margin-left: 10px;
 }
 
+.navbar ul {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
 .navbar ul li{
     list-style: none;
     display: inline-block;
     margin: 0 80px;
     position: relative; 
     margin-left: 80px;
-    
+    margin-right: 0;
 }
 
 .navbar ul li a{
@@ -61,7 +68,7 @@
     text-transform: uppercase;
     font-family: Arial;
     font-size: 17px;
-    padding: 10px 20px;
+    padding: 10px 0;
 }
 
 .navbar ul li::after{
@@ -95,7 +102,7 @@
     margin-right: 20px;
     position: absolute;
     right: 20px;
-    top: 25px;
+    top: 35px;
 }
 
 .content{
@@ -112,17 +119,19 @@
     transform: translateX(-4%); 
     text-align: center; 
     color: #FAF9F6;
+    /* width: 80%; */
 }
 .slogan h1{
-    font-size: 68px;
-    margin-top: 80px
+    font-size: 5vh;
+    margin-top: 20px;
 }
 
 .slogan p{
     margin: 20px auto;
+    margin-top: 1em;
     font-weight: 100;
     line-height:25px;
-    font-size: 25px;
+    font-size: 3vh;
 }
 
 /* Media queries for responsive design */
@@ -139,6 +148,18 @@
     .loginbutton {
         transform: none;
         margin-top: 10px;
+    }
+
+    .slogan {
+        width: 90%; /* Adjust the width for smaller screens */
+    }
+
+    .slogan h1 {
+        font-size: 6vw; /* Adjust font size for smaller screens */
+    }
+
+    .slogan p {
+        font-size: 3vw; /* Adjust font size for smaller screens */
     }
 
 }
