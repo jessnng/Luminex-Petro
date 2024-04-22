@@ -27,6 +27,12 @@
     justify-content: flex-start;
 }
 
+.navbar ul {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
 .navbar ul li{
     list-style: none;
     display: inline-block;
@@ -42,7 +48,7 @@
     text-transform: uppercase;
     font-family: Arial;
     font-size: 17px;
-    padding: 10px 20px;
+    padding: 10px 0;
 }
 
 .navbar ul li::after{

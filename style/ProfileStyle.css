@@ -59,6 +59,20 @@
     width: 100%;
 }
 
+.loginbutton{
+    background-color: #fdce00;
+    color: #02162c;
+    height: 5vh;
+    width: auto;
+    padding: 0 20px;
+    border-radius: 50px;
+    font-size: 16px;
+    margin-right: 20px;
+    position: absolute;
+    right: 20px;
+    top: 35px;
+}
+
 :root{
     font-family: Arial;
     text-align: center;
