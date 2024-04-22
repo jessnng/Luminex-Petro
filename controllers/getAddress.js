@@ -13,10 +13,10 @@ const getAddressController = async (client, req, res) => {
   
         const address = existingUser.address; // Assuming the address is stored in the 'address' field of the user profile
         if(address.address2 === ''){
-            formattedAddress = `${address.address1}, ${address.address2}, ${address.city}, ${address.state} ${address.zipcode}`
+            formattedAddress = `${address.address1}, ${address.address2}, ${address.city}, ${address.state}, ${address.zipcode}`
         }
         else{
-            formattedAddress = `${address.address1}, ${address.city}, ${address.state} ${address.zipcode}`
+            formattedAddress = `${address.address1}, ${address.city}, ${address.state}, ${address.zipcode}`
         }
         
         
