@@ -1,6 +1,9 @@
-const getAddressController = async (client, req, res) => {
+const dbManager = require('./databaseManager');
+
+const getAddressController = async (req, res) => {
     try {
       const { username } = req.body;
+      const client = dbManager.getClient();
   
       const db = client.db("appdb");
       const collection = db.collection("users");

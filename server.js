@@ -75,7 +75,7 @@ app.post('/profile', function(req, res) {
 
 // Route to render the user profile page
 app.get('/user-profile', async (req, res) => {
-  userProfileController(client, req, res)
+  userProfileController(req, res)
 });
 
 // create quote form route
@@ -84,11 +84,11 @@ app.get('/user-profile', async (req, res) => {
   });
   
   app.get('/quote-history', async (req, res) => {
-    quoteHistoryController(client, req, res);
+    quoteHistoryController(req, res);
   });
 
   app.post('/get-address', async (req, res) => {
-    getAddressController(client, req, res);
+    getAddressController(req, res);
   });
 
   app.post('/get-rate-history-factor', async (req, res) => {

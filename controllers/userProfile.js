@@ -1,6 +1,9 @@
-const userProfileController = async (client, req, res) => {
+const dbManager = require('./databaseManager');
+
+const userProfileController = async (req, res) => {
   try {
     const { username } = req.query; // Assuming username is passed as a query parameter
+    const client = dbManager.getClient();
 
     if (!username) {
       return res.status(400).json({ error: 'Missing username parameter' });

@@ -26,14 +26,25 @@
 module.exports = { quoteHistoryController };  */
 
 const { getRateHistoryFactor } = require('./getHistory.js'); // Adjust path as needed
-const { MongoClient } = require('mongodb');
-const mongoURL= 'mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb';
+// const { MongoClient } = require('mongodb');
+const dbManager = require('./databaseManager');
 
-const quoteHistoryController = async (client, req, res) => {
+// const mongoURL= 'mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb';
+
+const quoteHistoryController = async (req, res) => {
     try {
         const loggedInUser = req.headers.authorization;
+        const client = dbManager.getClient();
 
         if (!loggedInUser) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const encodedUsername = loggedInUser.replace('Basic ', '');
+
+        const username = Buffer.from(encodedUsername, 'base64').toString('utf-8');
+
+        if (!username) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
@@ -41,7 +52,7 @@ const quoteHistoryController = async (client, req, res) => {
         const collection = database.collection("fuel-quotes");
 
         // Fetch quote history
-        const quoteHistory = await collection.find({ username: loggedInUser }).toArray();
+        const quoteHistory = await collection.find({ username }).toArray();
 
         if (quoteHistory.length === 0) {
             return res.status(200).json({

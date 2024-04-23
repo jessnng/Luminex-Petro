@@ -1,10 +1,12 @@
 const bcrypt = require('bcrypt');
-const { MongoClient } = require('mongodb');
-const mongoURL= 'mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb';
+// const { MongoClient } = require('mongodb');
+const dbManager = require('./databaseManager');
+// const mongoURL= 'mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb';
 
 const authRegisterController = async (req, res) => {
   try {
     const { username, password, confirmPassword } = req.body;
+    const client = dbManager.getClient();
 
     // Check for missing fields
     if (!username || !password || !confirmPassword) {
@@ -18,8 +20,8 @@ const authRegisterController = async (req, res) => {
     
 
     // Connect to the MongoDB database
-    const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
+    // const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
+    // await client.connect();
     const db = client.db("appdb");
     const collection = db.collection("users");
 

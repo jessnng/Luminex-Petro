@@ -1,7 +1,10 @@
+const dbManager = require('./databaseManager');
+
 const currentPricePerGallon = 1.50; // Base price
 const companyProfitFactor = 0.10; // Constant company profit factor
 
 function calculateFuelQuote(gallonsRequested, locationFactor, rateHistoryFactor) {
+    const client = dbManager.getClient();
     // Determine the gallons requested factor based on the number of gallons
     const gallonsRequestedFactor = gallonsRequested >= 1000 ? 0.02 : 0.03;
 
