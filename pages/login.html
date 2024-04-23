@@ -60,11 +60,17 @@
       const formData = new FormData(this); // Get form data
       const formDataObject = Object.fromEntries(formData.entries()); // Convert FormData to object
 
+      const username = formDataObject.username;
+      const password = formDataObject.password;
+      const cred = btoa(`${username}:${password}`);
+      const authHeader = `Basic ${cred}`;
+
       // Send an HTTP request to check if the user exists
       fetch('/login', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': authHeader
         },
         body: JSON.stringify(formDataObject)
       })

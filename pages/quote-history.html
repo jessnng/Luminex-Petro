@@ -52,7 +52,11 @@
             }
 
             // Fetch quote history data from the server
-            fetch(`/quote-history?username=${loggedInUser}`)
+            fetch(`/quote-history?username=${loggedInUser}`, {
+                headers: {
+                    'Authorization': `Basic ${btoa(`${loggedInUser}:`)}` // Note the trailing colon
+                }
+            })
                 .then(response => response.json())
                 .then(data => {
                     console.log("Quote history data received:", data);

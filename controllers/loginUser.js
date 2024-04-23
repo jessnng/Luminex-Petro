@@ -11,9 +11,16 @@ const loginController = async (client, req, res) => {
     try{
       const database = client.db("appdb"); 
       const collection = database.collection("users"); 
+
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Basic ')) {
+        return res.status(401).json({ error: 'Authorization header missing or invalid' });
+      }
+      const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
+      const [authUsername, authPassword] = credentials.split(':');
   
-      const user = await collection.findOne({ username });
-      if (!user || !(await bcrypt.compare(password, user.password))) {
+      const user = await collection.findOne({ username: authUsername });
+      if (!user || !(await bcrypt.compare(authPassword, user.password))) {
         return res.status(401).json({ error: 'User not found or invalid credentials' });
       }
   
