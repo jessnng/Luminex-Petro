@@ -36,10 +36,10 @@
             <input type="date" id="deliveryDate" oninput="checkFields()"><br>
 
             <label for="suggestedPrice">Suggested Price per Gallon: </label>
-            <input type="number" class="readonly-input" id="price" value="0.00" readonly><br>
+            <input type="text" class="readonly-input" id="price" value="$0.00" readonly><br>
 
             <label for="amountDue">Total Amount Due: </label>
-            <input type="number" class="readonly-input" id="total" value="0.00" readonly><br>
+            <input type="text" class="readonly-input" id="total" value="$0.00" readonly><br>
 
             <!-- Hidden input fields for factors -->
             <input type="hidden" id="locationFactor" value="0.02"> <!-- Default value for Texas -->
@@ -126,10 +126,14 @@
         const suggestedPrice = currentPrice + margin;
 
         const totalAmountDue = gallons * suggestedPrice;
+        
+        // Format with dollar signs
+        const formattedSuggestedPrice = `$${suggestedPrice.toFixed(3)}`;
+        const formattedTotalAmountDue = `$${totalAmountDue.toFixed(2)}`;
 
-        // Update the suggested price and total amount due in the form fields
-        document.getElementById("price").value = suggestedPrice.toFixed(3);
-        document.getElementById("total").value = totalAmountDue.toFixed(2);
+        // Set the form fields with the formatted values
+        document.getElementById("price").value = formattedSuggestedPrice; // Ensure dollar sign is set
+        document.getElementById("total").value = formattedTotalAmountDue; // Ensure dollar sign is set
 }
 
         // document.querySelector('.quotebutton').addEventListener('click', function(event) {
