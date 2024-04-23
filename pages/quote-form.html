@@ -200,10 +200,8 @@
             const addressData = await fetchAddressData();
             gallonsRequest = parseFloat(document.getElementById('gallons').value);
             deliveryDate = document.getElementById('deliveryDate').value;
-            suggestedPrice = parseFloat(document.getElementById('price').value);
-            amountDue = parseFloat(document.getElementById('total').value);
-
-            formatAddressUpdateLocationFactor(addressData);
+            suggestedPrice = parseFloat(document.getElementById('price').value.replace('$', ''));
+            amountDue = parseFloat(document.getElementById('total').value.replace('$', ''));
 
             const response = await fetch("/quote-form", {
                 method: "POST",

@@ -35,7 +35,9 @@ const quoteFormController = async (client, req, res) => {
       // var suggestedPrice = sessionStorage.getItem("suggestedPrice");
       // var amountDue = sessionStorage.getItem("amountDue");
   
-      const data = {
+      // add to quote history collection
+      await collection.insertOne({
+        username,
         gallonsRequest,
         deliveryAddress: {
           address1: deliveryAddress.address1,
@@ -47,10 +49,7 @@ const quoteFormController = async (client, req, res) => {
         deliveryDate,
         suggestedPrice,
         amountDue
-      };
-  
-      // add to quote history collection
-      await collection.insertOne({username, data});
+      });
       await client.close();
   
       res.status(200);

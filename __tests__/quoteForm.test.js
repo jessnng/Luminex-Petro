@@ -11,7 +11,18 @@ describe('quoteFormController', () => {
         // Mock request and response objects
         req = {
             body: {
+                username: 'testuser',
                 gallonsRequest: 100, // Example value
+                deliveryAddress: {
+                    address1: '123 Example St',
+                    address2: 'Apt 101',
+                    city: 'City',
+                    state: 'State',
+                    zipcode: '12345'
+                },
+                deliveryDate: '2024-04-01',
+                suggestedPrice: 10,
+                amountDue: 100
             },
         };
         res = {
@@ -35,18 +46,6 @@ describe('quoteFormController', () => {
     });
 
     it('should successfully submit quote form', async () => {
-        const userData = {
-            deliveryAddress: { 
-                address1: '123 Example St',
-                address2: 'Apt 101',
-                city: 'City',
-                state: 'State',
-                zipcode: '12345'
-            },
-            suggestedPrice: 10,
-            amountDue: 100,
-            deliveryDate: '2024-04-01',
-        };
 
         // Mock insertOne method of the collection
         const insertOneMock = jest.fn().mockResolvedValueOnce();
@@ -60,7 +59,7 @@ describe('quoteFormController', () => {
         // Mock MongoClient.connect method to return clientMock
         MongoClient.connect.mockResolvedValueOnce(clientMock);
 
-        await quoteFormController(userData, req, res);
+        await quoteFormController(clientMock, req, res);
 
         expect(insertOneMock).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(200);
