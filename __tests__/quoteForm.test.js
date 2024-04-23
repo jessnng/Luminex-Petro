@@ -28,7 +28,7 @@ describe('quoteFormController', () => {
         // Modify request to have missing gallonsRequest
         delete req.body.gallonsRequest;
 
-        await quoteFormController(req, res, {});
+        await quoteFormController({}, req, res);
 
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({ error: "A value is needed for gallons requested." });
@@ -36,7 +36,13 @@ describe('quoteFormController', () => {
 
     it('should successfully submit quote form', async () => {
         const userData = {
-            deliveryAddress: 'Test address',
+            deliveryAddress: { 
+                address1: '123 Example St',
+                address2: 'Apt 101',
+                city: 'City',
+                state: 'State',
+                zipcode: '12345'
+            },
             suggestedPrice: 10,
             amountDue: 100,
             deliveryDate: '2024-04-01',
@@ -54,7 +60,7 @@ describe('quoteFormController', () => {
         // Mock MongoClient.connect method to return clientMock
         MongoClient.connect.mockResolvedValueOnce(clientMock);
 
-        await quoteFormController(req, res, userData);
+        await quoteFormController(userData, req, res);
 
         expect(insertOneMock).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(200);
