@@ -17,6 +17,9 @@ function calculateFuelQuote(gallonsRequested, locationFactor, rateHistoryFactor)
 
     // Calculate the total amount due based on gallons requested
     const totalAmountDue = gallonsRequested * suggestedPricePerGallon;
+    
+    const formattedSuggestedPricePerGallon = `$${suggestedPricePerGallon.toFixed(3)}`;
+    const formattedTotalAmountDue = `$${totalAmountDue.toFixed(2)}`;
 
     return {
         suggestedPricePerGallon: suggestedPricePerGallon.toFixed(3), // Fix to 3 decimal places
