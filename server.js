@@ -81,7 +81,6 @@ app.get('/user-profile', async (req, res) => {
 // create quote form route
   app.post('/quote-form', (req, res) => {
     quoteFormController(client, req, res)
-    quoteFormController( req, res); 
   });
   
   app.get('/quote-history', async (req, res) => {
