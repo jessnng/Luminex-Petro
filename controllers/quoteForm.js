@@ -37,7 +37,13 @@ const quoteFormController = async (client, req, res) => {
   
       const data = {
         gallonsRequest,
-        deliveryAddress,
+        deliveryAddress: {
+          address1: deliveryAddress.address1,
+          address2: deliveryAddress.address2,
+          city: deliveryAddress.city,
+          state: deliveryAddress.state,
+          zipcode: deliveryAddress.zipcode
+        },
         deliveryDate,
         suggestedPrice,
         amountDue
