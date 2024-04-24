@@ -1,6 +1,9 @@
-const getAddressController = async (client, req, res) => {
+const dbManager = require('./databaseManager');
+
+const getAddressController = async (req, res) => {
     try {
       const { username } = req.body;
+      const client = dbManager.getClient();
   
       const db = client.db("appdb");
       const collection = db.collection("users");
@@ -12,15 +15,8 @@ const getAddressController = async (client, req, res) => {
       }
   
         const address = existingUser.address; // Assuming the address is stored in the 'address' field of the user profile
-        if(address.address2 === ''){
-            formattedAddress = `${address.address1}, ${address.address2}, ${address.city}, ${address.state} ${address.zipcode}`
-        }
-        else{
-            formattedAddress = `${address.address1}, ${address.city}, ${address.state} ${address.zipcode}`
-        }
         
-        
-      res.status(200).json({ address: formattedAddress });
+      res.status(200).json({ address });
     } catch (error) {
       console.error("Error retrieving user address:", error);
       res.status(500).json({ error: 'Internal server error' });

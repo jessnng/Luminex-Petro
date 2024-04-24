@@ -35,16 +35,21 @@ const quoteFormController = async (client, req, res) => {
       // var suggestedPrice = sessionStorage.getItem("suggestedPrice");
       // var amountDue = sessionStorage.getItem("amountDue");
   
-      const data = {
+      // add to quote history collection
+      await collection.insertOne({
+        username,
         gallonsRequest,
-        deliveryAddress,
+        deliveryAddress: {
+          address1: deliveryAddress.address1,
+          address2: deliveryAddress.address2,
+          city: deliveryAddress.city,
+          state: deliveryAddress.state,
+          zipcode: deliveryAddress.zipcode
+        },
         deliveryDate,
         suggestedPrice,
         amountDue
-      };
-  
-      // add to quote history collection
-      await collection.insertOne({username, data});
+      });
       await client.close();
   
       res.status(200);

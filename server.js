@@ -1,20 +1,21 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-const bodyParser = require('body-parser');
-const { authRegisterController } = require('../Luminex Petro/controllers/registerUser');
-const { quoteFormController } = require('../Luminex Petro/controllers/quoteForm');
-const { quoteHistoryController } = require('../Luminex Petro/controllers/quoteHistory');
-const { loginController } = require('../Luminex Petro/controllers/loginUser');
-const { updateProfileController } = require('../Luminex Petro/controllers/profile');
-const { userProfileController } = require('../Luminex Petro/controllers/userProfile');
-const { getAddressController } = require('../Luminex Petro/controllers/getAddress')
-const { FuelPricing } = require('../Luminex Petro/controllers/pricingModule')
-const { getPricePerGallon } = require('../Luminex Petro/controllers/pricingModule')
+//const bodyParser = require('body-parser');
+const { authRegisterController } = require('../Luminex-Petro/controllers/registerUser');
+const { quoteFormController } = require('../Luminex-Petro/controllers/quoteForm');
+const { quoteHistoryController} = require('../Luminex-Petro/controllers/quoteHistory');
+const { loginController } = require('../Luminex-Petro/controllers/loginUser');
+const { updateProfileController } = require('../Luminex-Petro/controllers/profile');
+const { userProfileController } = require('../Luminex-Petro/controllers/userProfile');
+const { getAddressController } = require('../Luminex-Petro/controllers/getAddress');
+const { getRateHistoryFactor } = require('../Luminex-Petro/controllers/getHistory'); // Ensure the correct path
+//const { FuelPricing } = require('../Luminex Petro/controllers/pricingModule');
+//const { getPricePerGallon } = require('../Luminex Petro/controllers/pricingModule')
 
 // Use body-parser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: true }));
 
 // allows access to files in folder
 app.use(express.static(path.join(__dirname, 'pages')));
@@ -32,7 +33,7 @@ app.use((req, res, next) => { //CORS
 
 // CONNECT TO MONGODB ATLAS
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&w=majority&appName=Luminex-Petro";
+const uri = "mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -74,20 +75,24 @@ app.post('/profile', function(req, res) {
 
 // Route to render the user profile page
 app.get('/user-profile', async (req, res) => {
-  userProfileController(client, req, res)
+  userProfileController(req, res)
 });
 
 // create quote form route
-app.post('/quote-form', function (req, res) {
-  quoteFormController(client, req, res)
-})
+  app.post('/quote-form', (req, res) => {
+    quoteFormController(client, req, res)
+  });
+  
+  app.get('/quote-history', async (req, res) => {
+    quoteHistoryController(req, res);
+  });
 
-app.get('/quote-history', async (req, res) => {
-  quoteHistoryController(client, req, res);
-});
+  app.post('/get-address', async (req, res) => {
+    getAddressController(req, res);
+  });
 
-app.post('/get-address', async (req, res) => {
-  getAddressController(client, req, res);
+  app.post('/get-rate-history-factor', async (req, res) => {
+    getRateHistoryFactor(client,req,res);
 });
 
 // create pricing module route
@@ -102,3 +107,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+

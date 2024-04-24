@@ -108,7 +108,7 @@ input[type=submit]{
 }
 .readonly-input{
     border-radius: 1px;
-    border: 1px solid lightgrey;
+    border: 1px solid rgb(199, 199, 199);
     background-color: #f8f8f8;
     color: grey;
     pointer-events: none;
@@ -116,8 +116,8 @@ input[type=submit]{
 }
 
 .homebutton{
-    background-color: #efefef;
-    color: #02162c;
+    background-color: #d6d6d6;
+    color: #011830;
     height: 3vh;
     width: 47.4%;
     padding: 0 2px;
@@ -128,9 +128,25 @@ input[type=submit]{
     top: 12%;
     border: 1px solid #959595;
     transition: background-color 0.3s;
+    
 }
 
 .homebutton:hover {
     background-color: #dcdcdc;
+    left: 25%;
 }
 
+.quotebutton{
+    height:30px;
+    width: 70%;
+    justify-content: center;
+    margin-left: 12%;
+}
+
+.submitbutton{
+    height:30px;
+    width: 70%;
+    justify-content: center;
+    margin-left: 12%;
+    margin-top: 10px;
+}

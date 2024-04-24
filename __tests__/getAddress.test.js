@@ -1,11 +1,13 @@
 const { getAddressController } = require('../controllers/getAddress');
-const { MongoClient } = require('mongodb');
+const dbManager = require('../controllers/databaseManager');
+// const { MongoClient } = require('mongodb');
 
 // Mocking the MongoDB client
-jest.mock('mongodb');
+// jest.mock('mongodb');
+jest.mock('../controllers/databaseManager');
 
 describe('getAddressController', () => {
-  let req, res, client;
+  let req, res;
 
   beforeEach(() => {
     req = { body: { username: 'testUser' } };
@@ -13,11 +15,11 @@ describe('getAddressController', () => {
       status: jest.fn().mockReturnThis(),
       json: jest.fn()
     };
-    client = {
+    dbManager.getClient.mockReturnValue({
       db: jest.fn().mockReturnThis(),
       collection: jest.fn().mockReturnThis(),
       findOne: jest.fn()
-    };
+    });
   });
 
   it('should return user address if user is found', async () => {
@@ -32,27 +34,27 @@ describe('getAddressController', () => {
       }
     };
 
-    client.findOne.mockResolvedValue(existingUser);
+    dbManager.getClient().findOne.mockResolvedValue(existingUser);
 
-    await getAddressController(client, req, res);
+    await getAddressController(req, res);
 
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ address: '123 Street, City, State 12345' });
+    expect(res.json).toHaveBeenCalledWith({ address: existingUser.address });
   });
 
   it('should return 404 if user is not found', async () => {
-    client.findOne.mockResolvedValue(null);
+    dbManager.getClient().findOne.mockResolvedValue(null);
 
-    await getAddressController(client, req, res);
+    await getAddressController(req, res);
 
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.json).toHaveBeenCalledWith({ error: 'User not found' });
   });
 
   it('should return 500 if there is an error', async () => {
-    client.findOne.mockRejectedValue(new Error('DB Error'));
+    dbManager.getClient().findOne.mockRejectedValue(new Error('DB Error'));
 
-    await getAddressController(client, req, res);
+    await getAddressController(req, res);
 
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({ error: 'Internal server error' });

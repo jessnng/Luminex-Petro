@@ -2,17 +2,17 @@ const { loginController } = require('../controllers/loginUser.js');
 const bcrypt = require('bcrypt');
 
 describe('Login Controller', () => {
-  let req, res, next;
+  let req, res;
 
   beforeEach(() => {
     req = {
-      body: {}
+      body: {}, 
+      headers: {}
     };
     res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn()
     };
-    next = jest.fn();
   });
 
   afterEach(() => {
@@ -26,17 +26,17 @@ describe('Login Controller', () => {
   });
 
   test('should return 401 if user not found or invalid credentials', async () => {
+    req.headers.authorization = 'Basic abc';
     req.body.username = 'nonexistentuser';
     req.body.password = 'wrongpassword';
     const mockCollection = {
-      findOne: jest.fn().mockReturnValue(null)
+      findOne: jest.fn().mockResolvedValue(null)
     };
     const mockClient = {
       db: jest.fn().mockReturnValue({
         collection: jest.fn().mockReturnValue(mockCollection)
       })
     };
-    global.client = mockClient;
 
     await loginController(mockClient, req, res);
     expect(res.status).toHaveBeenCalledWith(401);
@@ -44,6 +44,7 @@ describe('Login Controller', () => {
   });
 
   test('should return login successful with user-profile redirect', async () => {
+    req.headers.authorization = 'Basic abc';
     req.body.username = 'existinguser';
     req.body.password = 'correctpassword';
     const mockCollection = {
@@ -59,34 +60,30 @@ describe('Login Controller', () => {
         collection: jest.fn().mockReturnValue(mockCollection)
       })
     };
-    global.client = mockClient;
 
     await loginController(mockClient, req, res);
     expect(res.json).toHaveBeenCalledWith({ message: 'Login successful', username: 'existinguser', redirectTo: '/user-profile.html' });
   });
 
   test('should return login successful with profile creation redirect', async () => {
+    req.headers.authorization = 'Basic abc';
     req.body.username = 'existinguser';
     req.body.password = 'correctpassword';
-    const mockCollection = {
-      findOne: jest.fn().mockReturnValue({ 
-        username: 'existinguser', 
-        password: await bcrypt.hash('correctpassword', 10) })
-    };
-    const mockClient = {
-      db: jest.fn().mockReturnValue({
-        collection: jest.fn().mockImplementation((collectionName) => {
-          if (collectionName === 'users') return mockCollection;
+    mockClient.db.mockReturnValue({
+      collection: jest.fn().mockReturnValue({
+        findOne: jest.fn().mockResolvedValue({ 
+          username: 'existinguser', 
+          password: hashedPassword 
         })
       })
-    };
-    global.client = mockClient;
+    });
 
     await loginController(mockClient, req, res);
     expect(res.json).toHaveBeenCalledWith({ message: 'Login successful', username: 'existinguser', redirectTo: '/Profile.html' });
   });
 
   test('should return 500 for internal server error', async () => {
+    req.headers.authorization = 'Basic abc';
     req.body.username = 'existinguser';
     req.body.password = 'correctpassword';
     const mockCollection = {
@@ -97,7 +94,6 @@ describe('Login Controller', () => {
         collection: jest.fn().mockReturnValue(mockCollection)
       })
     };
-    global.client = mockClient;
 
     await loginController(mockClient, req, res);
     expect(res.status).toHaveBeenCalledWith(500);

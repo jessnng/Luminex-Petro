@@ -1,5 +1,5 @@
 const { userProfileController } = require('../controllers/userProfile.js');
-const bcrypt = require('bcrypt');
+const dbManager = require('../controllers/databaseManager');
 
 // Mock MongoDB client and collection
 const mockCollection = {
@@ -11,6 +11,8 @@ const mockCollection = {
       collection: jest.fn().mockReturnValue(mockCollection)
     })
   };
+
+jests.mock('../controllers/databaseManager');
 
 describe('User Profile Controller', () => {
     afterEach(() => {
