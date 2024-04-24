@@ -1,4 +1,5 @@
-const getRateHistoryFactor = async (client, username) => {
+const getRateHistoryFactor = async (client, req, res) => {
+    const username = req.body.username;
 
     if (!username || typeof username !== 'string') {
         throw new Error('Invalid or missing username'); // Modified to return error response

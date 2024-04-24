@@ -92,7 +92,13 @@ app.get('/user-profile', async (req, res) => {
   });
 
   app.post('/get-rate-history-factor', async (req, res) => {
-    getRateHistoryFactor(client,req,res);
+    try {
+      const rateHistoryFactor = await getRateHistoryFactor(client, req, res);
+      res.status(200).json({ rateHistoryFactor });
+  } catch (error) {
+      console.error("Error:", error.message);
+      res.status(500).json({ error: 'Failed to fetch rate history factor' });
+  }
 });
 
 // create pricing module route
