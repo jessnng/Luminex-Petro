@@ -3,6 +3,7 @@ const dbManager = require('./databaseManager');
 const userProfileController = async (req, res) => {
   try {
     const { username } = req.query; // Assuming username is passed as a query parameter
+    await dbManager.connect();
     const client = dbManager.getClient();
 
     if (!username) {
