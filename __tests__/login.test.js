@@ -1,4 +1,4 @@
-const { loginController } = require('../controllers/loginUser.js');
+const { loginController } = require('../controllers/loginUser');
 const bcrypt = require('bcrypt');
 
 describe('Login Controller', () => {
