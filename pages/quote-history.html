@@ -83,7 +83,7 @@
                         row.appendChild(createTableCell(item.gallonsRequest || "N/A")); // Check for undefined
                         row.appendChild(createTableCell(formatAddress(item.deliveryAddress))); // This handles undefined addresses
                         row.appendChild(createTableCell(formatDate(item.deliveryDate))); // Check if valid
-                        row.appendChild(createTableCell(item.suggestedPrice ? item.suggestedPrice.toFixed(2) : "N/A"));
+                        row.appendChild(createTableCell(item.suggestedPrice ? item.suggestedPrice : "N/A"));
                         row.appendChild(createTableCell(item.amountDue ? item.amountDue.toFixed(2) : "N/A"));
 
                         tableBody.appendChild(row);
@@ -135,7 +135,7 @@
 
         function formatDate(dateString) {
             const date = new Date(dateString);
-            return date.toLocaleDateString(); // Adjust format if needed
+            return date.toLocaleDateString(undefined, { timeZone: 'UTC' }); // Adjust format if needed
         }
     </script>
 </body>
