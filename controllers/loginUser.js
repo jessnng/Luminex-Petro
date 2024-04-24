@@ -13,9 +13,7 @@ const loginController = async (client, req, res) => {
       const collection = database.collection("users"); 
 
       const authHeader = req.headers.authorization;
-      if (!authHeader || !authHeader.startsWith('Basic ')) {
-        return res.status(401).json({ error: 'Authorization header missing or invalid' });
-      }
+
       const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
       const [authUsername, authPassword] = credentials.split(':');
   
@@ -25,7 +23,6 @@ const loginController = async (client, req, res) => {
       }
   
       const userProfile = await client.db("appdb").collection("users").findOne({ username });
-      console.log(userProfile)
       if (userProfile && userProfile.fullname && userProfile.address.address1 && userProfile.address.city && userProfile.address.state && userProfile.address.zipcode) {
         // If profile information exists, redirect to user-profile
         return res.json({ message: 'Login successful', username : username, redirectTo: '/user-profile.html' });

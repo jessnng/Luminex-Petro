@@ -65,4 +65,19 @@ describe('quoteFormController', () => {
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ message: 'Quote form successfully submitted.' });
     });
+
+    it('should return 500 if an internal server error occurs', async () => {
+        const errorMessage = 'Internal server error occurred.';
+        const clientMock = {
+            db: jest.fn().mockImplementation(() => {
+                throw new Error(errorMessage);
+            })
+        };
+
+        await quoteFormController(clientMock, req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith("Internal server error.");
+    });
+    
 });

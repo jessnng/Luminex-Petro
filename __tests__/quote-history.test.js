@@ -1,13 +1,14 @@
 const { query } = require('express');
 const { quoteHistoryController } = require('../controllers/quoteHistory');
+const dbManager = require('../controllers/databaseManager');
+
+jest.mock('../controllers/databaseManager');
 
 describe('quoteHistoryController', () => {
   it('should return quote history for a logged-in user', async () => {
     // Mock request and response objects
     const req = {
-      query: {
-        authorization: 'mockAuthToken'
-      }
+      headers: { authorization: 'mockAuthToken' }
     };
 
     // Mock response methods
@@ -26,20 +27,26 @@ describe('quoteHistoryController', () => {
       toArray: jest.fn().mockResolvedValue([{ quote: 'mockQuote' }]) // Mock quote history data
     };
 
+    // Mock getRateHistoryFactor function
+    const getRateHistoryFactor = jest.fn().mockResolvedValue(0.5);
+
     // Call the controller function
-    await quoteHistoryController(client, req, res);
+    dbManager.getClient.mockReturnValue(client);
+    await quoteHistoryController(req, res);
 
     // Assert that the response status code is 200
     expect(res.status).toHaveBeenCalledWith(200);
     // Assert that the response JSON contains the expected quote history
-    expect(jsonMock).toHaveBeenCalledWith([{ quote: 'mockQuote' }]);
+    expect(jsonMock).toHaveBeenCalledWith({
+      rateHistoryFactor: 0.5,
+      history: [{ quote: 'mockQuote' }]
+    });
+    expect(getRateHistoryFactor).toHaveBeenCalledWith(client, 'mockAuthToken');
   });
 
   it('should return 401 for an unauthorized user', async () => {
     // Mock request object with no authorization header
-    const req = {
-      query: {}
-    };
+    const req = {};
 
     // Mock response methods
     const jsonMock = jest.fn();
@@ -49,11 +56,9 @@ describe('quoteHistoryController', () => {
       status: statusMock
     };
 
-    // Mock client object
-    const client = {};
-
     // Call the controller function
-    await quoteHistoryController(client, req, res);
+    dbManager.getClient.mockReturnValue(undefined);
+    await quoteHistoryController(req, res);
 
     // Assert that the response status code is 401
     expect(res.status).toHaveBeenCalledWith(401);
@@ -64,9 +69,7 @@ describe('quoteHistoryController', () => {
   it('should return 404 if quote history is not found', async () => {
     // Mock request object with a logged-in user
     const req = {
-      query: {
-        username: 'mockUser'
-      }
+      headers: { authorization: 'mockAuthToken' }
     };
 
     // Mock response methods
@@ -86,7 +89,8 @@ describe('quoteHistoryController', () => {
     };
 
     // Call the controller function
-    await quoteHistoryController(client, req, res);
+    dbManager.getClient.mockReturnValue(client);
+    await quoteHistoryController(req, res);
 
     // Assert that the response status code is 404
     expect(res.status).toHaveBeenCalledWith(404);
@@ -119,7 +123,8 @@ describe('quoteHistoryController', () => {
     };
 
     // Call the controller function
-    await quoteHistoryController(client, req, res);
+    dbManager.getClient.mockReturnValue(client);
+    await quoteHistoryController(req, res);
 
     // Assert that the response status code is 500
     expect(res.status).toHaveBeenCalledWith(500);
