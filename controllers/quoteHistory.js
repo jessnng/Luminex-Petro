@@ -1,26 +1,47 @@
-const quoteHistoryController = async (client, req, res) => {
+const quoteHistoryController = async (req, res) => {
     try {
-      const loggedInUser = req.headers.authorization; // Assuming user authentication token is passed in headers
-  
-      if (!loggedInUser) {
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
-  
-      const database = client.db("appdb");
-      const collection = database.collection("quotes");
-  
-      // Fetch quote history data from the database
-      const quoteHistory = await collection.find({ username: loggedInUser }).toArray();
-  
-      if (!quoteHistory || quoteHistory.length === 0) {
-        return res.status(404).json({ error: 'Quote history not found' });
-      }
-  
-      res.status(200).json(quoteHistory);
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith('Basic ')) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const encodedCredentials = authHeader.replace('Basic ', '');
+        const decodedCredentials = Buffer.from(encodedCredentials, 'base64').toString('utf-8');
+        const [username] = decodedCredentials.split(':'); // Extract the username
+
+        if (!username) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        // Add a console log for debugging
+        console.log("Extracted username:", username);
+
+        const client = await dbManager.getClient(); // Ensure the database client is connected
+        const database = client.db("appdb");
+        const collection = database.collection("fuel-quotes");
+
+        const quoteHistory = await collection.find({ username }).toArray();
+
+        if (quoteHistory.length === 0) {
+            return res.status(200).json({
+                rateHistoryFactor: 0.0,
+                history: []
+            });
+        }
+
+        // Get the rate history factor
+        const rateHistoryFactor = await getRateHistoryFactor(client, username);
+
+        return res.status(200).json({
+            rateHistoryFactor,
+            history: quoteHistory
+        });
+
     } catch (error) {
-      console.error("Error retrieving quote history:", error);
-      res.status(500).json({ error: 'Internal server error' });
+        console.error("Error in quote history:", error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-  };
-  
+};
+
 module.exports = { quoteHistoryController };
