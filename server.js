@@ -80,7 +80,7 @@ app.get('/user-profile', async (req, res) => {
 
 // create quote form route
   app.post('/quote-form', (req, res) => {
-    quoteFormController(client, req, res)
+    quoteFormController(req, res)
   });
   
   app.get('/quote-history', async (req, res) => {
@@ -93,12 +93,13 @@ app.get('/user-profile', async (req, res) => {
 
   app.post('/get-rate-history-factor', async (req, res) => {
     try {
-      const rateHistoryFactor = await getRateHistoryFactor(client, req, res);
+      const { username } = req.body;
+      const rateHistoryFactor = await getRateHistoryFactor(client, username);
       res.status(200).json({ rateHistoryFactor });
-  } catch (error) {
+    } catch (error) {
       console.error("Error:", error.message);
       res.status(500).json({ error: 'Failed to fetch rate history factor' });
-  }
+    }
 });
 
 // create pricing module route

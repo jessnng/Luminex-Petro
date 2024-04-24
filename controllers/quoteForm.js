@@ -16,11 +16,15 @@
 //   }
 // }
 // run().catch(console.error);
+const dbManager = require('./databaseManager');
 
-const quoteFormController = async (client, req, res) => {
+const quoteFormController = async (req, res) => {
 
     try {
       const { username, gallonsRequest, deliveryAddress, deliveryDate, suggestedPrice, amountDue } = req.body;
+      await dbManager.connect();
+      const client = dbManager.getClient();
+
       if (!gallonsRequest)
       {
         return res.status(400).json({ error: "A value is needed for gallons requested."})

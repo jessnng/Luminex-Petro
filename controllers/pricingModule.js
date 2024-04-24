@@ -27,7 +27,7 @@ async function calculateFuelQuote(gallonsRequested, locationFactor, rateHistoryF
     const formattedTotalAmountDue = `$${totalAmountDue.toFixed(2)}`;
 
     return {
-        suggestedPricePerGallon: suggestedPricePerGallon.toFixed(3), // Fix to 3 decimal places
+        suggestedPricePerGallon: suggestedPricePerGallon, // Fix to 3 decimal places
         totalAmountDue: totalAmountDue.toFixed(2), // Fix to 2 decimal places
     };
 }
