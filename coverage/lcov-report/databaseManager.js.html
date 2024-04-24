@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for userProfile.js</title>
+    <title>Code coverage report for databaseManager.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> userProfile.js</h1>
+        <h1><a href="index.html">All files</a> databaseManager.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.75% </span>
+                <span class="strong">64.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/32</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>18/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Functions</span>
+                <span class="quiet">Branches</span>
                 <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.75% </span>
+                <span class="strong">33.33% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/3</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">64.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/32</span>
+                <span class='fraction'>18/28</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -91,26 +91,15 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -121,44 +110,43 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const dbManager = require('./databaseManager');
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { MongoClient } = require('mongodb');
 &nbsp;
-const userProfileController = async (req, res) =&gt; {
-  try {
-    const { username } = req.query; // Assuming username is passed as a query parameter
-    await dbManager.connect()<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
-<span class="cstat-no" title="statement not covered" >    const client = dbManager.getClient();</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    if (!username) {</span>
-<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'Missing username parameter' });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    const database = client.db("appdb");</span>
-<span class="cstat-no" title="statement not covered" >    const collection = database.collection("users");</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    // Fetch user profile data from the database</span>
-<span class="cstat-no" title="statement not covered" >    const userProfile = await collection.findOne({ username });</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    if (!userProfile) {</span>
-<span class="cstat-no" title="statement not covered" >      return res.status(404).json({ error: 'User profile not found' });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    res.status(200).json(userProfile);</span>
-<span class="cstat-no" title="statement not covered" >    // res.json({ message: 'User profile retrieved successfully', userProfile });</span>
-  } catch (error) {
-    console.error("Error retrieving user profile:", error);
-    res.status(500);
-    res.json({ error: 'Internal server error' });
+class DatabaseManager {
+  constructor(uri) {
+    this.uri = uri;
+    this.client = new MongoClient(uri);
   }
-};
 &nbsp;
-module.exports = { userProfileController };
+<span class="fstat-no" title="function not covered" >  async connect() {</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      await this.client.connect();</span>
+<span class="cstat-no" title="statement not covered" >      console.log("Connected to MongoDB");</span>
+<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >      console.error("Error connecting to MongoDB:", error);</span>
+<span class="cstat-no" title="statement not covered" >      throw error;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >  getClient() {</span>
+<span class="cstat-no" title="statement not covered" >    return this.client;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+}
+&nbsp;
+// Create a singleton instance of the DatabaseManager
+const uri = "mongodb+srv://&lt;username&gt;:&lt;password&gt;@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=Luminex-Petro";
+const dbManager = new DatabaseManager(uri);
+&nbsp;
+module.exports = dbManager;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

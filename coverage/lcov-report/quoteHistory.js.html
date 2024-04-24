@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for quoteForm.js</title>
+    <title>Code coverage report for quoteHistory.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> quoteForm.js</h1>
+        <h1><a href="index.html">All files</a> quoteHistory.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.82% </span>
+                <span class="strong">32.69% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/69</span>
+                <span class='fraction'>17/52</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.82% </span>
+                <span class="strong">32.69% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>33/69</span>
+                <span class='fraction'>17/52</span>
             </div>
         
             
@@ -115,45 +115,14 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -191,90 +160,73 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">// CONNECT TO MONGODB ATLAS
-// const { MongoClient } = require('mongodb');
-// // const uri = "mongodb+srv://&lt;username&gt;:&lt;password&gt;@luminex-petro.walmhvt.mongodb.net/?retryWrites=true&amp;w=majority&amp;appName=Luminex-Petro";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const dbManager = require('./databaseManager');
+const { getRateHistoryFactor } = require('./getHistory');
 &nbsp;
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-// const client = new MongoClient(uri, { 
-//   useNewUrlParser: true, 
-//   useUnifiedTopology: true 
-// });
-// async function run() {
-//   try {
-//     await client.connect();
-//     //console.log("Pinged your deployment. You successfully connected to MongoDB!");
-//   } catch(err) {
-//     console.error(err);
-//   }
-// }
-// run().catch(console.error);
-const dbManager = require('./databaseManager');
+const quoteHistoryController = async (req, res) =&gt; {
+  try {
+      const authHeader = req.headers.authorization;
 &nbsp;
-const quoteFormController = async (req, res) =&gt; {
-&nbsp;
-    try {
-      const { username, gallonsRequest, deliveryAddress, deliveryDate, suggestedPrice, amountDue } = req.body;
-      await dbManager.connect()<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
-<span class="cstat-no" title="statement not covered" >      const client = dbManager.getClient();</span>
+      if (!authHeader || !authHeader.startsWith('Basic ')) {
+          return res.status(401).json({ error: 'Unauthorized' });
+<span class="branch-0 cbranch-no" title="branch not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      if (!gallonsRequest)</span>
-<span class="cstat-no" title="statement not covered" >      {</span>
-<span class="cstat-no" title="statement not covered" >        return res.status(400).json({ error: "A value is needed for gallons requested."})</span>
+<span class="cstat-no" title="statement not covered" >      const encodedCredentials = authHeader.replace('Basic ', '');</span>
+<span class="cstat-no" title="statement not covered" >      const decodedCredentials = Buffer.from(encodedCredentials, 'base64').toString();</span>
+<span class="cstat-no" title="statement not covered" >      const [username] = decodedCredentials.split(':'); // Extract the username</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      console.log("Decoded credentials:", decodedCredentials);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      if (!username) {</span>
+<span class="cstat-no" title="statement not covered" >          return res.status(401).json({ error: 'Unauthorized' });</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      const db = client.db("appdb");</span>
-<span class="cstat-no" title="statement not covered" >      const collection = db.collection("fuel-quotes");</span>
+<span class="cstat-no" title="statement not covered" >      // Add a console log for debugging</span>
+<span class="cstat-no" title="statement not covered" >      console.log("Extracted username:", username);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      //const { deliveryAddress, suggestedPrice, amountDue } = userData;</span>
-<span class="cstat-no" title="statement not covered" >  </span>
-<span class="cstat-no" title="statement not covered" >      // var deliveryAddress = sessionStorage.getItem("userAddress");</span>
-<span class="cstat-no" title="statement not covered" >      // var suggestedPrice = sessionStorage.getItem("suggestedPrice");</span>
-<span class="cstat-no" title="statement not covered" >      // var amountDue = sessionStorage.getItem("amountDue");</span>
-<span class="cstat-no" title="statement not covered" >  </span>
-<span class="cstat-no" title="statement not covered" >      // add to quote history collection</span>
-<span class="cstat-no" title="statement not covered" >      await collection.insertOne({</span>
-<span class="cstat-no" title="statement not covered" >        username,</span>
-<span class="cstat-no" title="statement not covered" >        gallonsRequest,</span>
-<span class="cstat-no" title="statement not covered" >        deliveryAddress: {</span>
-<span class="cstat-no" title="statement not covered" >          address1: deliveryAddress.address1,</span>
-<span class="cstat-no" title="statement not covered" >          address2: deliveryAddress.address2,</span>
-<span class="cstat-no" title="statement not covered" >          city: deliveryAddress.city,</span>
-<span class="cstat-no" title="statement not covered" >          state: deliveryAddress.state,</span>
-<span class="cstat-no" title="statement not covered" >          zipcode: deliveryAddress.zipcode</span>
-<span class="cstat-no" title="statement not covered" >        },</span>
-<span class="cstat-no" title="statement not covered" >        deliveryDate,</span>
-<span class="cstat-no" title="statement not covered" >        suggestedPrice,</span>
-<span class="cstat-no" title="statement not covered" >        amountDue</span>
+<span class="cstat-no" title="statement not covered" >      const client = await dbManager.getClient(); // Ensure the database client is connected</span>
+<span class="cstat-no" title="statement not covered" >      const database = client.db("appdb");</span>
+<span class="cstat-no" title="statement not covered" >      const collection = database.collection("fuel-quotes");</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      const quoteHistory = await collection.find({ username }).toArray();</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      if (quoteHistory.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >          return res.status(200).json({</span>
+<span class="cstat-no" title="statement not covered" >              rateHistoryFactor: 0.0,</span>
+<span class="cstat-no" title="statement not covered" >              history: []</span>
+<span class="cstat-no" title="statement not covered" >          });</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      // Get the rate history factor</span>
+<span class="cstat-no" title="statement not covered" >      const rateHistoryFactor = await getRateHistoryFactor(client, username);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      return res.status(200).json({</span>
+<span class="cstat-no" title="statement not covered" >          rateHistoryFactor,</span>
+<span class="cstat-no" title="statement not covered" >          history: quoteHistory</span>
 <span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      await client.close();</span>
-<span class="cstat-no" title="statement not covered" >  </span>
-<span class="cstat-no" title="statement not covered" >      res.status(200);</span>
-<span class="cstat-no" title="statement not covered" >      res.json({ message: 'Quote form successfully submitted.'})</span>
-<span class="cstat-no" title="statement not covered" >  </span>
-    } catch (error) {
-      console.error("Error submitting quote form: ", error);
-      res.status(500);
-      res.json("Internal server error.")
-    }
-}
+<span class="cstat-no" title="statement not covered" ></span>
+  } catch (error) {
+      console.error("Error in quote history:", error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
 &nbsp;
-module.exports = { quoteFormController };</pre></td></tr></table></pre>
+module.exports = { quoteHistoryController };
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-24T05:52:47.547Z
+                at 2024-04-24T05:56:10.988Z
             </div>
         <script src="prettify.js"></script>
         <script>
