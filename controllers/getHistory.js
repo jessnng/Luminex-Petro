@@ -1,7 +1,7 @@
 const getRateHistoryFactor = async (client, username) => {
 
     if (!username || typeof username !== 'string') {
-        res.status(400).json({ message: 'Invalid or missing username' }); // Modified to return error response
+        throw new Error('Invalid or missing username'); // Modified to return error response
         return;
     }
 
