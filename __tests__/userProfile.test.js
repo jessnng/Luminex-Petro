@@ -1,4 +1,4 @@
-const { userProfileController } = require('../controllers/userProfile.js');
+const { userProfileController } = require('../controllers/userProfile');
 const dbManager = require('../controllers/databaseManager');
 
 // Mock MongoDB client and collection
@@ -12,7 +12,7 @@ const mockCollection = {
     })
   };
 
-jests.mock('../controllers/databaseManager');
+jest.mock('../controllers/databaseManager');
 
 describe('User Profile Controller', () => {
     afterEach(() => {
