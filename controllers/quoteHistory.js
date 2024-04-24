@@ -1,79 +1,52 @@
-/*const quoteHistoryController = async (client, req, res) => {
-    try {
-      const loggedInUser = req.query.username;
-  
-      if (!loggedInUser) {
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
-  
-      const database = client.db("appdb");
-      const collection = database.collection("fuel-quotes");
-  
-      // Fetch quote history data from the database
-      const quoteHistory = await collection.find({ username: loggedInUser }).toArray();
-  
-      if (!quoteHistory || quoteHistory.length === 0) {
-        return res.status(404).json({ error: 'Quote history not found' });
-      }
-  
-      res.status(200).json(quoteHistory);
-    } catch (error) {
-      console.error("Error retrieving quote history:", error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
-  
-module.exports = { quoteHistoryController };  */
-
-const { getRateHistoryFactor } = require('./getHistory.js'); // Adjust path as needed
-// const { MongoClient } = require('mongodb');
 const dbManager = require('./databaseManager');
-
-// const mongoURL= 'mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb';
+const { getRateHistoryFactor } = require('./getHistory');
 
 const quoteHistoryController = async (req, res) => {
-    try {
-        const loggedInUser = req.headers.authorization;
-        const client = dbManager.getClient();
+  try {
+      const authHeader = req.headers.authorization;
 
-        if (!loggedInUser) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+      if (!authHeader || !authHeader.startsWith('Basic ')) {
+          return res.status(401).json({ error: 'Unauthorized' });
+      }
 
-        const encodedUsername = loggedInUser.replace('Basic ', '');
+      const encodedCredentials = authHeader.replace('Basic ', '');
+      const decodedCredentials = Buffer.from(encodedCredentials, 'base64').toString();
+      const [username] = decodedCredentials.split(':'); // Extract the username
 
-        const username = Buffer.from(encodedUsername, 'base64').toString('utf-8');
+      console.log("Decoded credentials:", decodedCredentials);
 
-        if (!username) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
+      if (!username) {
+          return res.status(401).json({ error: 'Unauthorized' });
+      }
 
-        const database = client.db("appdb");
-        const collection = database.collection("fuel-quotes");
+      // Add a console log for debugging
+      console.log("Extracted username:", username);
 
-        // Fetch quote history
-        const quoteHistory = await collection.find({ username }).toArray();
+      const client = await dbManager.getClient(); // Ensure the database client is connected
+      const database = client.db("appdb");
+      const collection = database.collection("fuel-quotes");
 
-        if (quoteHistory.length === 0) {
-            return res.status(200).json({
-                rateHistoryFactor: 0.00,
-                history: []
-            });
-        }
+      const quoteHistory = await collection.find({ username }).toArray();
 
-        const rateHistoryFactor = await getRateHistoryFactor(client, loggedInUser);
+      if (quoteHistory.length === 0) {
+          return res.status(200).json({
+              rateHistoryFactor: 0.0,
+              history: []
+          });
+      }
 
-        res.status(200).json({
-            rateHistoryFactor: rateHistoryFactor,
-            history: quoteHistory
-        });
-    } catch (error) {
-        console.error("Error retrieving quote history:", error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
+      // Get the rate history factor
+      const rateHistoryFactor = await getRateHistoryFactor(client, username);
+
+      return res.status(200).json({
+          rateHistoryFactor,
+          history: quoteHistory
+      });
+
+  } catch (error) {
+      console.error("Error in quote history:", error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
-module.exports = {
-    quoteHistoryController,
-    getRateHistoryFactor
-};
+module.exports = { quoteHistoryController };

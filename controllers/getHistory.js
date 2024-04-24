@@ -1,5 +1,4 @@
-const getRateHistoryFactor = async (client, req, res) => {
-    const username = req.body.username;
+const getRateHistoryFactor = async (client, username) => {
 
     if (!username || typeof username !== 'string') {
         res.status(400).json({ message: 'Invalid or missing username' }); // Modified to return error response
@@ -15,10 +14,10 @@ const getRateHistoryFactor = async (client, req, res) => {
 
         const rateHistoryFactor = (quoteHistory.length === 0) ? 0.00 : 0.01;
 
-        res.status(200).json({ rateHistoryFactor }); // Respond with the calculated factor
+        return rateHistoryFactor; // Respond with the calculated factor
     } catch (error) {
         console.error("Error retrieving rate history factor:", error);
-        res.status(500).json({ message: 'Error retrieving rate history factor' }); // Error handling
+        throw new Error('Error retrieving rate history factor'); // Error handling
     }
 };
 
