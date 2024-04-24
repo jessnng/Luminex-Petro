@@ -17,8 +17,8 @@
                 <li><a href="quote-form.html">Fuel Quote</a></li>
                 <li><a href="quote-history.html">Fuel History</a></li>
             </ul>
-            <a href="login.html">
-            <button class="loginbutton">LOGIN</button>
+            <a id="profileLink" href="login.html">
+            <button id="loginButton" class="loginbutton">LOGIN</button>
                 </a>
     </div>
         
@@ -78,5 +78,25 @@
                 <p>Copyright &copy;2024; Designed by Group 3</p>
             </div>
         </footer>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Check if the user is logged in
+                const loggedInUser = localStorage.getItem('loggedInUser');
+                
+                // Get the login button and profile link elements
+                var loginButton = document.getElementById('loginButton');
+                var profileLink = document.getElementById('profileLink');
+        
+                // Update the button text and link based on the user's login status
+                if (loggedInUser) {
+                    loginButton.textContent = 'PROFILE';
+                    profileLink.href = 'user-profile.html';
+                } else {
+                    loginButton.textContent = 'LOGIN';
+                    profileLink.href = 'login.html';
+                }
+            });
+        </script>
 </body>
 </html>
