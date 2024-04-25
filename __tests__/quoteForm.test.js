@@ -1,83 +1,74 @@
-// Import required modules and functions
+const request = require('supertest');
+const express = require('express');
 const { quoteFormController } = require('../controllers/quoteForm');
-const { MongoClient } = require('mongodb');
+const dbManager = require('../controllers/databaseManager');
 
-jest.mock('mongodb');
+// Mock the database manager
+jest.mock('../controllers/databaseManager');
+
+const app = express();
+app.use(express.json());
+
+// Set up the route for testing
+app.post('/quote-form', quoteFormController);
 
 describe('quoteFormController', () => {
-    let req, res;
+  beforeEach(() => {
+    jest.resetAllMocks(); // Reset mocks before each test
+  });
 
-    beforeEach(() => {
-        // Mock request and response objects
-        req = {
-            body: {
-                username: 'testuser',
-                gallonsRequest: 100, // Example value
-                deliveryAddress: {
-                    address1: '123 Example St',
-                    address2: 'Apt 101',
-                    city: 'City',
-                    state: 'State',
-                    zipcode: '12345'
-                },
-                deliveryDate: '2024-04-01',
-                suggestedPrice: 10,
-                amountDue: 100
-            },
-        };
-        res = {
-            status: jest.fn().mockReturnThis(),
-            json: jest.fn(),
-        };
+  test('should return 400 if gallonsRequest is missing', async () => {
+    const response = await request(app).post('/quote-form').send({
+      username: 'test_user',
+      deliveryAddress: { address1: '123 Main St', city: 'Test City', state: 'TS', zipcode: '12345' },
+      deliveryDate: '2024-05-01',
+      suggestedPrice: 1.99,
+      amountDue: 100.0,
     });
 
-    afterEach(() => {
-        jest.clearAllMocks();
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe("A value is needed for gallons requested.");
+  });
+
+  test('should insert quote form successfully and return 200', async () => {
+    const mockClient = {
+      db: jest.fn().mockReturnValue({
+        collection: jest.fn().mockReturnValue({
+          insertOne: jest.fn().mockResolvedValue({ insertedId: 'test_id' }),
+        }),
+      }),
+    };
+
+    dbManager.getClient.mockReturnValue(mockClient);
+
+    const response = await request(app).post('/quote-form').send({
+      username: 'test_user',
+      gallonsRequest: 500,
+      deliveryAddress: { address1: '123 Main St', city: 'Test City', state: 'TS', zipcode: '12345' },
+      deliveryDate: '2024-05-01',
+      suggestedPrice: 1.99,
+      amountDue: 100.0,
     });
 
-    it('should return 400 if gallonsRequest is missing', async () => {
-        // Modify request to have missing gallonsRequest
-        delete req.body.gallonsRequest;
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Quote form successfully submitted.');
+  });
 
-        await quoteFormController({}, req, res);
+  test('should return 500 if an internal server error occurs', async () => {
+    dbManager.connect.mockRejectedValue(new Error('Database connection error'));
 
-        expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.json).toHaveBeenCalledWith({ error: "A value is needed for gallons requested." });
+    const response = await request(app).post('/quote-form').send({
+      username: 'test_user',
+      gallonsRequest: 500,
+      deliveryAddress: { address1: '123 Main St', city: 'Test City', state: 'TS', zipcode: '12345' },
+      deliveryDate: '2024-05-01',
+      suggestedPrice: 1.99,
+      amountDue: 100.0,
     });
 
-    it('should successfully submit quote form', async () => {
-
-        // Mock insertOne method of the collection
-        const insertOneMock = jest.fn().mockResolvedValueOnce();
-        const collectionMock = { insertOne: insertOneMock };
-        
-        // Mock client.db().collection() method
-        const collectionFnMock = jest.fn().mockReturnValueOnce(collectionMock);
-        const dbMock = { collection: collectionFnMock };
-        const clientMock = { db: jest.fn().mockReturnValueOnce(dbMock) };
-
-        // Mock MongoClient.connect method to return clientMock
-        MongoClient.connect.mockResolvedValueOnce(clientMock);
-
-        await quoteFormController(clientMock, req, res);
-
-        expect(insertOneMock).toHaveBeenCalled();
-        expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith({ message: 'Quote form successfully submitted.' });
-    });
-
-    it('should return 500 if an internal server error occurs', async () => {
-        const errorMessage = 'Internal server error occurred.';
-        const clientMock = {
-            db: jest.fn().mockImplementation(() => {
-                throw new Error(errorMessage);
-            })
-        };
-
-        await quoteFormController(clientMock, req, res);
-
-        expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith("Internal server error.");
-    });
+    expect(response.status).toBe(500);
+    expect(response.body).toBe('Internal server error.');
+  });
+});
     
 });
