@@ -10,6 +10,7 @@ const { updateProfileController } = require('../Luminex-Petro/controllers/profil
 const { userProfileController } = require('../Luminex-Petro/controllers/userProfile');
 const { getAddressController } = require('../Luminex-Petro/controllers/getAddress');
 const { getRateHistoryFactor } = require('../Luminex-Petro/controllers/getHistory'); // Ensure the correct path
+const { popupProfileController } = require('../Luminex-Petro/controllers/popupProfile');
 //const { FuelPricing } = require('../Luminex Petro/controllers/pricingModule');
 //const { getPricePerGallon } = require('../Luminex Petro/controllers/pricingModule')
 
@@ -90,6 +91,10 @@ app.get('/user-profile', async (req, res) => {
   app.post('/get-address', async (req, res) => {
     getAddressController(req, res);
   });
+
+  app.post('/update-popup-profile', function(req, res) {
+    popupProfileController(client, req, res)
+  });  
 
   app.post('/get-rate-history-factor', async (req, res) => {
     try {

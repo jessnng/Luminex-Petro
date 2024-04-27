@@ -179,9 +179,30 @@ table td{
     flex-flow: wrap;
     align-items: center;
     padding: 5pt;
+    padding-bottom: 10px;
 }
 
 .user-info{
     margin-left: auto;
     margin-right: auto;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 20px;
+    z-index: 9999;
+    text-align: center;
+}
+.popup label, .popup button, .popup input{
+    margin: 5px;
+}
+.popup select{
+    width: 50px;
+    margin: 5px auto;
 }
