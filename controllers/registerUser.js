@@ -1,7 +1,5 @@
 const bcrypt = require('bcrypt');
-// const { MongoClient } = require('mongodb');
 const dbManager = require('./databaseManager');
-// const mongoURL= 'mongodb+srv://<username>:<password>@luminex-petro.walmhvt.mongodb.net/appdb';
 
 const authRegisterController = async (req, res) => {
   try {
@@ -18,10 +16,6 @@ const authRegisterController = async (req, res) => {
       return res.status(400).json({ error: 'Password and confirmed password do not match' });
     }
     
-
-    // Connect to the MongoDB database
-    // const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
-    // await client.connect();
     const db = client.db("appdb");
     const collection = db.collection("users");
 

@@ -1,9 +1,6 @@
 const { getAddressController } = require('../controllers/getAddress');
 const dbManager = require('../controllers/databaseManager');
-// const { MongoClient } = require('mongodb');
 
-// Mocking the MongoDB client
-// jest.mock('mongodb');
 jest.mock('../controllers/databaseManager');
 
 describe('getAddressController', () => {
